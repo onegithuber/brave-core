@@ -1,0 +1,28 @@
+static_library("brave_federated") {
+  sources = [
+    "brave_federated_service.cc",
+    "brave_federated_service.h",
+    "data_store_service.cc",
+    "data_store_service.h",
+    "data_stores/ad_notification_timing_data_store.cc",
+    "data_stores/ad_notification_timing_data_store.h",
+    "data_stores/data_store.cc",
+    "data_stores/data_store.h",
+    "features.cc",
+    "features.h",
+    "operational_patterns.cc",
+    "operational_patterns.h",
+  ]
+
+  deps = [
+    "//brave/components/brave_stats/browser",
+    "//brave/components/p3a:p3a",
+    "//brave/components/version_info",
+    "//components/keyed_service/core",
+    "//components/metrics",
+    "//components/prefs",
+    "//services/network/public/cpp",
+    "//services/network/public/mojom",
+    "//sql",
+  ]
+}
