@@ -61,7 +61,7 @@ BuildTransactionForReconciledTransactionsLastMonth(
   }
 
   TransactionInfo transaction;
-  transaction.id = base::GenerateGUID();
+  transaction.id = base::GUID::GenerateRandomV4();
   transaction.created_at = timestamp;
   transaction.value = value;
   transaction.confirmation_type = ConfirmationType::kViewed;
