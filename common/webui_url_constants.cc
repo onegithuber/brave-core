@@ -37,3 +37,6 @@ const char kUntrustedTrezorHost[] = "trezor-bridge";
 const char kUntrustedTrezorURL[] = "chrome-untrusted://trezor-bridge/";
 const char kShieldsPanelURL[] = "chrome://brave-shields.top-chrome";
 const char kShieldsPanelHost[] = "brave-shields.top-chrome";
+const char kFederatedLearningInternalsURL[] =
+    "brave://federated-learning-internals";
+const char kFederatedLearningInternalsHost[] = "federated-learning-internals";

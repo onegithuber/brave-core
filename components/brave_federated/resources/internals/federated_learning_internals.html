@@ -1,0 +1,45 @@
+<!DOCTYPE HTML>
+<html i18n-values="dir:textdirection">
+<head>
+  <meta charset="utf-8">
+  <title>Federated Learning Internals</title>
+  <link rel="stylesheet" href="chrome://resources/css/text_defaults.css">
+  <link rel="stylesheet" href="chrome://resources/css/tabs.css">
+  <link rel="stylesheet" href="federated_learning_internals.css">
+</head>
+
+<body i18n-values=".style.fontFamily:fontfamily;.style.fontSize:fontsize">
+  <h1 i18n-content="helloWorldTitle"></h1>
+
+  <tabbox>
+    <tabs>
+      <tab>Ad Timing Store</tab>
+    </tabs>
+    <tabpanels>
+
+      <tabpanel id="tabpanel-ad-timing-store-logs">
+        <div>
+          <div>
+            <h2>Ad Timing Store</h2>
+            <table>
+              <thead>
+                <tr>
+                  <th class="ad-timing-log-time">Time</th>
+                  <th class="ad-timing-log-locale">Locale</th>
+                  <th class="ad-timing-log-number-of-tabs">Number of Tabs</th>
+                  <th class="ad-timing-log-label">Label</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+      </tabpanel>
+
+    </tabpanels>
+  </tabbox>
+
+</body>
+<script src="federated_learning_internals.js" type="module"></script>
+
+</html> 

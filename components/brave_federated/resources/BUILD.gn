@@ -1,0 +1,42 @@
+import("//tools/grit/grit_rule.gni")
+import("//tools/grit/repack.gni")
+
+pack_web_resources("internals_generated_resources") {
+  resource_name = "federated_learning_internals"
+  output_dir = "$root_gen_dir/brave/components/federated_learning/resources"
+
+  # need webpack and GRD generation first
+  deps = [ "internals" ]
+}
+
+grit("static_resources") {
+  source = "federated_learning_static_resources.grd"
+
+  outputs = [
+    "grit/federated_learning_resources.h",
+    "federated_learning_static.pak",
+  ]
+
+  grit_flags = [
+    "-E",
+    "root_gen_dir=" + rebase_path(root_gen_dir, root_build_dir),
+  ]
+
+  resource_ids = "//brave/browser/resources/resource_ids"
+
+  output_dir = "$root_gen_dir/brave/components/federated_learning/resources"
+}
+
+repack("resources") {
+  public_deps = [
+    ":internals_generated_resources",
+    ":static_resources",
+  ]
+
+  sources = [
+    "$root_gen_dir/brave/components/federated_learning/resources/federated_learning_internals_generated.pak",
+    "$root_gen_dir/brave/components/federated_learning/resources/federated_learning_static.pak",
+  ]
+
+  output = "$root_gen_dir/brave/components/federated_learning/resources/federated_learning_resources.pak"
+}

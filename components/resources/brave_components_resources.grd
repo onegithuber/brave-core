@@ -34,6 +34,7 @@
       <include name="IDR_BRAVE_NEW_TAB_IMG4" file="../img/newtab/history_btn.svg" type="BINDATA" />
       <include name="IDR_BRAVE_NEW_TAB_IMG2" file="../img/newtab/settings_prefs_btn.svg" type="BINDATA" />
 
+
       <!-- WebUI wallet resources -->
       <if expr="not is_android">
         <include name="IDR_WALLET_PAGE_HTML" file="../brave_wallet_ui/page/wallet_page.html" type="BINDATA" />
@@ -66,6 +67,7 @@
       <part file="domain_block_resources.grdp" />
       <part file="decentralized_dns_resources.grdp" />
       <part file="brave_shields_resources.grdp" />
+      <part file="brave_federated_learning_resources.grdp" />
     </includes>
   </release>
 </grit>

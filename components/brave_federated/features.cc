@@ -34,7 +34,7 @@ const int kDefaultCollectionIDLifetimeInDays = 1;
 }  // namespace
 
 const base::Feature kFederatedLearning{kFeatureName,
-                                       base::FEATURE_DISABLED_BY_DEFAULT};
+                                       base::FEATURE_ENABLED_BY_DEFAULT};
 
 bool IsFederatedLearningEnabled() {
   return base::FeatureList::IsEnabled(kFederatedLearning);

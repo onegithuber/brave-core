@@ -14,6 +14,7 @@
 #include "brave/browser/ui/webui/brave_rewards_internals_ui.h"
 #include "brave/browser/ui/webui/brave_rewards_page_ui.h"
 #include "brave/browser/ui/webui/brave_tip_ui.h"
+#include "brave/browser/ui/webui/federated_learning_internals_ui.h"
 #include "brave/browser/ui/webui/webcompat_reporter_ui.h"
 #include "brave/common/brave_features.h"
 #include "brave/common/pref_names.h"
@@ -60,6 +61,8 @@
 #include "brave/browser/ui/webui/tor_internals_ui.h"
 #endif
 
+#include <iostream>
+
 using content::WebUI;
 using content::WebUIController;
 
@@ -71,6 +74,7 @@ typedef WebUIController* (*WebUIFactoryFunction)(WebUI* web_ui,
                                                  const GURL& url);
 
 WebUIController* NewWebUI(WebUI* web_ui, const GURL& url) {
+  std::cerr << "YOOO New Web UI custom URL" << std::endl;
   auto host = url.host_piece();
   Profile* profile = Profile::FromBrowserContext(
       web_ui->GetWebContents()->GetBrowserContext());
@@ -128,6 +132,9 @@ WebUIController* NewWebUI(WebUI* web_ui, const GURL& url) {
   } else if (host == kTorInternalsHost) {
     return new TorInternalsUI(web_ui, url.host());
 #endif
+  } else if (host == kFederatedLearningInternalsHost) {
+    std::cerr << "YOOOOMA" << std::endl;
+    return new FederatedLearningInternalsUI(web_ui, url.host());
   }
   return nullptr;
 }
@@ -156,6 +163,7 @@ WebUIFactoryFunction GetWebUIFactoryFunction(WebUI* web_ui,
       url.host_piece() == kWalletPageHost ||
 #endif
       url.host_piece() == kRewardsPageHost ||
+      url.host_piece() == kFederatedLearningInternalsHost ||
       url.host_piece() == kRewardsInternalsHost ||
       url.host_piece() == kTipHost ||
 #if BUILDFLAG(ENABLE_TOR)

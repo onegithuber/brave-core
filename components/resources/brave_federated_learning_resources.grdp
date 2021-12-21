@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<grit-part>
+    <include name="IDR_FEDERATED_LEARNING_INTERNALS_HTML" file="../brave_federated/resources/internals/federated_learning_internals.html" type="BINDATA" />
+    <include name="IDR_FEDERATED_LEARNING_INTERNALS_CSS" file="../brave_federated/resources/internals/federated_learning_internals.css" type="BINDATA" />
+    <include name="IDR_FEDERATED_LEARNING_INTERNALS_JS" file="../brave_federated/resources/internals/federated_learning_internals.js" type="BINDATA" />
+</grit-part>

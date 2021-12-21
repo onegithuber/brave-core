@@ -113,7 +113,6 @@ AdNotificationTimingDataStore::LoadLogs() {
 
     notification_timing_logs.insert(std::make_pair(s.ColumnInt(0), ntl));
   }
-
   return notification_timing_logs;
 }
 

@@ -131,6 +131,7 @@ TEST_F(AdNotificationTimingDataStoreTest, AddLog) {
 TEST_F(AdNotificationTimingDataStoreTest, LoadLogs) {
   AddAll();
   EXPECT_EQ(4U, CountRecords());
+
   auto ad_notification_timing_logs = ad_notification_data_store_->LoadLogs();
 
   for (size_t i = 0; i < base::size(ad_notification_task_log_test_db); ++i) {
