@@ -20,7 +20,8 @@ BraveShieldsDataController::~BraveShieldsDataController() = default;
 
 BraveShieldsDataController::BraveShieldsDataController(
     content::WebContents* web_contents)
-    : content::WebContentsObserver(web_contents) {}
+    : content::WebContentsObserver(web_contents),
+      content::WebContentsUserData<BraveShieldsDataController>(*web_contents) {}
 
 void BraveShieldsDataController::DidFinishNavigation(
     content::NavigationHandle* navigation_handle) {
@@ -61,17 +62,17 @@ int BraveShieldsDataController::GetTotalBlockedCount() {
 
 bool BraveShieldsDataController::GetBraveShieldsEnabled() {
   auto* map = HostContentSettingsMapFactory::GetForProfile(
-      web_contents()->GetBrowserContext());
+      GetWebContents().GetBrowserContext());
   return brave_shields::GetBraveShieldsEnabled(map, GetCurrentSiteURL());
 }
 
 GURL BraveShieldsDataController::GetCurrentSiteURL() {
-  return web_contents()->GetLastCommittedURL();
+  return GetWebContents().GetLastCommittedURL();
 }
 
 AdBlockMode BraveShieldsDataController::GetAdBlockMode() {
   auto* map = HostContentSettingsMapFactory::GetForProfile(
-      web_contents()->GetBrowserContext());
+      GetWebContents().GetBrowserContext());
 
   ControlType control_type_ad =
       brave_shields::GetAdControlType(map, GetCurrentSiteURL());
@@ -92,7 +93,7 @@ AdBlockMode BraveShieldsDataController::GetAdBlockMode() {
 
 void BraveShieldsDataController::SetAdBlockMode(AdBlockMode mode) {
   auto* map = HostContentSettingsMapFactory::GetForProfile(
-      web_contents()->GetBrowserContext());
+      GetWebContents().GetBrowserContext());
 
   ControlType control_type_ad;
   ControlType control_type_cosmetic;
@@ -116,7 +117,7 @@ void BraveShieldsDataController::SetAdBlockMode(AdBlockMode mode) {
       map, control_type_cosmetic, GetCurrentSiteURL(),
       g_browser_process->local_state());
 
-  web_contents()->GetController().Reload(content::ReloadType::NORMAL, true);
+  GetWebContents().GetController().Reload(content::ReloadType::NORMAL, true);
 }
 
 void BraveShieldsDataController::HandleItemBlocked(
