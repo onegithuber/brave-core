@@ -101,12 +101,15 @@ ViewCounterService::ViewCounterService(NTPBackgroundImagesService* service,
 
 ViewCounterService::~ViewCounterService() = default;
 
+// TODO(tmancey): HERE
 void ViewCounterService::BrandedWallpaperWillBeDisplayed(
     const std::string& wallpaper_id) {
   if (ads_service_) {
+    // TODO(tmancey): HERE (For triggering ad events)
     base::Value data = ViewCounterService::GetCurrentWallpaperForDisplay();
     DCHECK(!data.is_none());
 
+    // TODO(tmancey): HERE
     const std::string* creative_instance_id =
         data.FindStringKey(kCreativeInstanceIDKey);
     ads_service_->OnNewTabPageAdEvent(
@@ -122,6 +125,7 @@ NTPBackgroundImagesData* ViewCounterService::GetCurrentWallpaperData() const {
   return service_->GetBackgroundImagesData();
 }
 
+// TODO(tmancey): HERE
 NTPSponsoredImagesData* ViewCounterService::GetCurrentBrandedWallpaperData()
     const {
   auto* sr_data = service_->GetBrandedImagesData(true /* for_sr */);
@@ -131,6 +135,7 @@ NTPSponsoredImagesData* ViewCounterService::GetCurrentBrandedWallpaperData()
   return service_->GetBrandedImagesData(false);
 }
 
+// TODO(tmancey): HERE (Fetches wallpaper for display)
 base::Value ViewCounterService::GetCurrentWallpaperForDisplay() const {
   if (ShouldShowBrandedWallpaper()) {
     return GetCurrentBrandedWallpaper();
@@ -148,6 +153,7 @@ base::Value ViewCounterService::GetCurrentWallpaper() const {
   return base::Value();
 }
 
+// TODO(tmancey): HERE (Get wallpaper for display)
 base::Value ViewCounterService::GetCurrentBrandedWallpaper() const {
   if (GetCurrentBrandedWallpaperData()) {
     size_t current_campaign_index;
@@ -264,6 +270,7 @@ void ViewCounterService::BrandedWallpaperLogoClicked(
   if (!ads_service_)
     return;
 
+  // TODO(tmancey): HERE
   ads_service_->OnNewTabPageAdEvent(
       wallpaper_id, creative_instance_id,
       ads::mojom::NewTabPageAdEventType::kClicked);

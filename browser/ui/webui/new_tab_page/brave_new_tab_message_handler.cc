@@ -573,6 +573,7 @@ void BraveNewTabMessageHandler::HandleGetWallpaperData(
     return;
   }
 
+  // TODO(tmancey): HERE (For display on desktop)
   auto data = service->GetCurrentWallpaperForDisplay();
 
   if (!data.is_dict()) {
@@ -591,6 +592,7 @@ void BraveNewTabMessageHandler::HandleGetWallpaperData(
     return;
   }
 
+  // TODO(tmancey): HERE
   constexpr char kBrandedWallpaperKey[] = "brandedWallpaper";
   const std::string wallpaper_id = base::GenerateGUID();
   data.SetStringKey(ntp_background_images::kWallpaperIDKey, wallpaper_id);

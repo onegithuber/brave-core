@@ -144,10 +144,12 @@ NTPBackgroundImagesBridge::CreateWallpaper(base::Value* data) {
       ConvertUTF8ToJavaString(env, link ? *link : ""));
 }
 
+// TODO(tmancey): HERE
 base::android::ScopedJavaLocalRef<jobject>
 NTPBackgroundImagesBridge::CreateBrandedWallpaper(base::Value* data) {
   JNIEnv* env = AttachCurrentThread();
 
+  // TODO(tmancey): HERE
   const std::string wallpaper_id = base::GenerateGUID();
   view_counter_service_->BrandedWallpaperWillBeDisplayed(wallpaper_id);
 
@@ -238,6 +240,7 @@ NTPBackgroundImagesBridge::GetCurrentWallpaper(
     JNIEnv* env, const JavaParamRef<jobject>& obj) {
   DCHECK_CURRENTLY_ON(BrowserThread::UI);
 
+  // TODO(tmancey): HERE (For display on Android)
   auto data = view_counter_service_
                   ? view_counter_service_->GetCurrentWallpaperForDisplay()
                   : base::Value();

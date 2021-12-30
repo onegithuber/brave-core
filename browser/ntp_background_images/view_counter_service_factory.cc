@@ -48,6 +48,7 @@ ViewCounterServiceFactory::ViewCounterServiceFactory()
 
 ViewCounterServiceFactory::~ViewCounterServiceFactory() {}
 
+// TODO(tmancey): HERE
 KeyedService* ViewCounterServiceFactory::BuildServiceInstanceFor(
     content::BrowserContext* browser_context) const {
   // Only NTP in normal profile uses sponsored services.
@@ -68,6 +69,7 @@ KeyedService* ViewCounterServiceFactory::BuildServiceInstanceFor(
     content::URLDataSource::Add(
         browser_context, std::make_unique<NTPSponsoredImagesSource>(service));
 
+    // TODO(tmancey): HERE
     return new ViewCounterService(service, ads_service, profile->GetPrefs(),
                                   g_browser_process->local_state(),
                                   is_supported_locale);
