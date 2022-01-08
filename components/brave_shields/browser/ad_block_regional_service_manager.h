@@ -102,6 +102,7 @@ class AdBlockRegionalServiceManager
   component_updater::ComponentUpdateService* component_update_service_;
   AdBlockResourceProvider* resource_provider_;
 
+  base::WeakPtrFactory<AdBlockRegionalServiceManager> weak_factory_{this};
   DISALLOW_COPY_AND_ASSIGN(AdBlockRegionalServiceManager);
 };
 
