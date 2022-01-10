@@ -399,18 +399,9 @@ void ContributionSKU::OnOrder(
   }
 
   switch (contribution->step) {
-    case type::ContributionStep::STEP_START: {
-      RetryStartStep(
-          std::move(contribution),
-          std::move(order),
-          callback);
-      return;
-    }
+    case type::ContributionStep::STEP_START:
     case type::ContributionStep::STEP_EXTERNAL_TRANSACTION: {
-      RetryExternalTransactionStep(
-          std::move(contribution),
-          std::move(order),
-          callback);
+      RetryStartStep(std::move(contribution), std::move(order), callback);
       return;
     }
     case type::ContributionStep::STEP_PREPARE:
@@ -447,89 +438,49 @@ void ContributionSKU::RetryStartStep(
     return;
   }
 
-  if (contribution->processor == type::ContributionProcessor::UPHOLD &&
-      contribution->type == type::RewardsType::AUTO_CONTRIBUTE) {
-    std::string order_id;
-    if (order) {
-      order_id = order->order_id;
+  std::string wallet_type;
+  switch (contribution->processor) {
+    case type::ContributionProcessor::BRAVE_USER_FUNDS:
+      wallet_type = constant::kWalletAnonymous;
+      break;
+    case type::ContributionProcessor::UPHOLD:
+      wallet_type = constant::kWalletUphold;
+      break;
+    case type::ContributionProcessor::GEMINI:
+      wallet_type = constant::kWalletGemini;
+      break;
+    case type::ContributionProcessor::NONE:
+    case type::ContributionProcessor::BRAVE_TOKENS:
+    case type::ContributionProcessor::BITFLYER:
+      break;
+  }
+
+  if (wallet_type.empty()) {
+    BLOG(0, "Invalid processor for SKU contribution");
+    callback(type::Result::LEDGER_ERROR);
+    return;
+  }
+
+  // If an SKU order has not been created yet, then start the SKU order process
+  // from the beginning.
+  if (!order || order->order_id.empty()) {
+    if (wallet_type == constant::kWalletAnonymous) {
+      AnonUserFunds(contribution->contribution_id, wallet_type, callback);
+    } else {
+      AutoContribution(contribution->contribution_id, wallet_type, callback);
     }
-
-    auto get_callback = std::bind(
-        &ContributionSKU::RetryStartStepExternalWallet,
-        this,
-        _1,
-        _2,
-        order_id,
-        contribution->contribution_id,
-        callback);
-    ledger_->uphold()->GetWallet();
     return;
   }
 
-  if (!order) {
-    AnonUserFunds(
-        contribution->contribution_id,
-        constant::kWalletAnonymous,
-        callback);
-    return;
-  }
+  ledger::ResultCallback complete_callback =
+      std::bind(&ContributionSKU::Completed, this, _1,
+                contribution->contribution_id, contribution->type, callback);
 
-  auto retry_callback = std::bind(&ContributionSKU::GetOrder,
-      this,
-      _1,
-      _2,
-      contribution->contribution_id,
-      callback);
+  auto retry_callback =
+      std::bind(&ContributionSKU::GetOrder, this, _1, _2,
+                contribution->contribution_id, complete_callback);
 
-  sku_->Retry(order->order_id, constant::kWalletAnonymous, retry_callback);
-}
-
-void ContributionSKU::RetryStartStepExternalWallet(
-    const type::Result result,
-    const std::string& wallet_type,
-    const std::string& order_id,
-    const std::string& contribution_id,
-    ledger::ResultCallback callback) {
-  if (result != type::Result::LEDGER_OK) {
-    BLOG(0, "External wallet is missing");
-    callback(type::Result::LEDGER_ERROR);
-    return;
-  }
-
-  if (order_id.empty()) {
-    AutoContribution(contribution_id, wallet_type, callback);
-    return;
-  }
-
-  auto retry_callback = std::bind(&ContributionSKU::GetOrder,
-      this,
-      _1,
-      _2,
-      contribution_id,
-      callback);
-
-  sku_->Retry(order_id, wallet_type, retry_callback);
-}
-
-void ContributionSKU::RetryExternalTransactionStep(
-    type::ContributionInfoPtr contribution,
-    type::SKUOrderPtr order,
-    ledger::ResultCallback callback) {
-  if (!contribution || !order) {
-    BLOG(0, "Contribution/order is null");
-    callback(type::Result::LEDGER_ERROR);
-    return;
-  }
-
-  credential::CredentialsTrigger trigger;
-  GetCredentialTrigger(order->Clone(), &trigger);
-  auto complete_callback = std::bind(&ContributionSKU::Completed,
-      this,
-      _1,
-      contribution->contribution_id,
-      contribution->type,
-      callback);
-  credentials_->Start(trigger, complete_callback);
+  sku_->Retry(order->order_id, wallet_type, retry_callback);
 }
 
 }  // namespace contribution

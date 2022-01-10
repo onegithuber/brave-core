@@ -12,6 +12,7 @@
 #include <vector>
 
 #include "base/guid.h"
+#include "base/time/time.h"
 #include "bat/ledger/global_constants.h"
 #include "bat/ledger/internal/common/time_util.h"
 #include "bat/ledger/internal/contribution/contribution.h"
@@ -223,19 +224,20 @@ void Contribution::ContributionCompleted(
     return;
   }
 
-  // TODO(https://github.com/brave/brave-browser/issues/7717)
-  // rename to ContributionCompleted
-  ledger_->ledger_client()->OnReconcileComplete(
-      result,
-      contribution->Clone());
+  // Migration 34 restarted ACs that failed before signed SKU tokens were
+  // downloaded. Don't show a notification or update the current month's
+  // activity report for those old ACs.
+  base::Time created_at = base::Time::FromDoubleT(contribution->created_at);
+  if (base::Time::Now() - created_at < base::Days(20)) {
+    ledger_->ledger_client()->OnReconcileComplete(result,
+                                                  contribution->Clone());
 
-  if (result == type::Result::LEDGER_OK) {
-    ledger_->database()->SaveBalanceReportInfoItem(
-        util::GetCurrentMonth(),
-        util::GetCurrentYear(),
-        GetReportTypeFromRewardsType(contribution->type),
-        contribution->amount,
-        [](const type::Result){});
+    if (result == type::Result::LEDGER_OK) {
+      ledger_->database()->SaveBalanceReportInfoItem(
+          util::GetCurrentMonth(), util::GetCurrentYear(),
+          GetReportTypeFromRewardsType(contribution->type),
+          contribution->amount, [](const type::Result) {});
+    }
   }
 
   auto save_callback = std::bind(&Contribution::ContributionCompletedSaved,
