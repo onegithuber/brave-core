@@ -128,6 +128,7 @@ const build = (buildConfig = config.defaultBuildConfig, options) => {
   touchOverriddenFiles()
   touchOverriddenVectorIconFiles()
   util.updateBranding()
+  util.buildNativeRedirectCC()
 
   if (config.xcode_gen_target) {
     util.generateXcodeWorkspace()

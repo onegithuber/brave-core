@@ -99,6 +99,7 @@ async function RunCommand () {
   await util.applyPatches()
 
   util.gclientRunhooks()
+  util.buildNativeRedirectCC()
 }
 
 Log.progress('Brave Browser Sync starting')
