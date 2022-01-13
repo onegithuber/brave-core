@@ -44,6 +44,11 @@
 #include "brave/browser/brave_ads/notifications/ad_notification_platform_bridge.h"
 #include "brave/browser/brave_ads/service_sandbox_type.h"
 #include "brave/browser/brave_browser_process.h"
+#include "brave/browser/brave_federated_learning/brave_federated_learning_service_factory.h"
+#include "brave/components/brave_federated_learning/brave_federated_learning_features.h"
+#include "base/threading/sequence_bound.h"
+#include "brave/components/brave_federated_learning/data_store_service.h"
+#include "brave/components/brave_federated_learning/data_stores/ad_notification_timing_data_store.h"
 #include "brave/browser/brave_rewards/rewards_service_factory.h"
 #include "brave/browser/profiles/profile_util.h"
 #include "brave/common/brave_channel_info.h"
@@ -55,6 +60,7 @@
 #include "brave/components/brave_ads/common/features.h"
 #include "brave/components/brave_ads/common/pref_names.h"
 #include "brave/components/brave_ads/common/switches.h"
+#include "brave/components/brave_federated_learning/brave_federated_learning_service.h"
 #include "brave/components/brave_rewards/browser/rewards_notification_service.h"
 #include "brave/components/brave_rewards/browser/rewards_p3a.h"
 #include "brave/components/brave_rewards/browser/rewards_service.h"
@@ -232,6 +238,8 @@ AdsServiceImpl::AdsServiceImpl(
       display_service_(NotificationDisplayService::GetForProfile(profile_)),
       rewards_service_(
           brave_rewards::RewardsServiceFactory::GetForProfile(profile_)),
+      federated_learning_service_(
+        brave::BraveFederatedLearningServiceFactory::GetForBrowserContext(profile_)),
       bat_ads_client_receiver_(new bat_ads::AdsClientMojoBridge(this)) {
   DCHECK(profile_);
 #if BUILDFLAG(BRAVE_ADAPTIVE_CAPTCHA_ENABLED)
@@ -310,6 +318,9 @@ void AdsServiceImpl::OnHtmlLoaded(const SessionID& tab_id,
   if (!connected()) {
     return;
   }
+
+  // TEST
+  AddAdNotificationTimingTaskLog();
 
   std::vector<std::string> redirect_chain_as_strings;
   for (const auto& url : redirect_chain) {
@@ -2204,6 +2215,33 @@ void AdsServiceImpl::Log(const char* file,
     ::logging::LogMessage(file, line, -verbose_level).stream() << message;
   }
 }
+
+void AdsServiceImpl::AddAdNotificationTimingTaskLog() {
+  const bool is_enabled =
+      brave::federated_learning::features::IsFederatedLearningEnabled();
+  
+  VLOG(1) << "*** is_enabled " << is_enabled;
+
+  const auto data_store_service =
+      federated_learning_service_->getDataStoreService();
+  const auto* ad_notification_timing_data_store =
+      data_store_service->getAdNotificationTimingDataStore();
+
+  brave::federated_learning::AdNotificationTimingTaskLog log;
+  log.locale = "en-GB";
+  log.number_of_tabs =42;
+  log.label = true;
+
+  ad_notification_timing_data_store
+      ->AsyncCall(&brave::federated_learning::AdNotificationTimingDataStore::AddLog)
+      .WithArgs(log)
+      .Then(base::BindOnce(&AdsServiceImpl::OnAddAdNotificationTimingTaskLog,base::Unretained(this)));
+}
+
+void AdsServiceImpl::OnAddAdNotificationTimingTaskLog(bool success) {
+  VLOG(1) << "*** OnAddAdNotificationTimingTaskLog success" << success;
+}
+
 
 bool AdsServiceImpl::GetBooleanPref(const std::string& path) const {
   return profile_->GetPrefs()->GetBoolean(path);
