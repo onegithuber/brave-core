@@ -1,5 +1,5 @@
 diff --git a/chrome/android/BUILD.gn b/chrome/android/BUILD.gn
-index b6048faf44a74a344e210cff02d7aa7555d5f20c..8bbaae6dfb3778d77b12eb41687372f280a63d33 100644
+index 3a126ad7ff3316206ef8b4e11af360ffb3c4aed8..3c5b64eff565c50b367252cde1ce81833ae13cd7 100644
 --- a/chrome/android/BUILD.gn
 +++ b/chrome/android/BUILD.gn
 @@ -252,6 +252,7 @@ android_resources("chrome_app_java_resources") {
@@ -42,7 +42,7 @@ index b6048faf44a74a344e210cff02d7aa7555d5f20c..8bbaae6dfb3778d77b12eb41687372f2
  }
  
  action_with_pydeps("chrome_android_java_google_api_keys_srcjar") {
-@@ -2188,6 +2193,7 @@ if (current_toolchain == default_toolchain) {
+@@ -2190,6 +2195,7 @@ if (current_toolchain == default_toolchain) {
          ":${_variant}_locale_pak_assets",
          ":${_variant}_paks",
        ]
@@ -50,7 +50,7 @@ index b6048faf44a74a344e210cff02d7aa7555d5f20c..8bbaae6dfb3778d77b12eb41687372f2
        if (_is_monochrome) {
          deps += [ "//android_webview:locale_pak_assets" ]
          if (webview_includes_weblayer && !_is_bundle_module) {
-@@ -2588,6 +2594,7 @@ android_library("base_module_java") {
+@@ -2589,6 +2595,7 @@ android_library("base_module_java") {
      "//components/payments/content/android:service_java",
      "//third_party/androidx:androidx_browser_browser_java",
    ]

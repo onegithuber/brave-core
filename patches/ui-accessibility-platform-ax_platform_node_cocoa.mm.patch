@@ -1,8 +1,8 @@
 diff --git a/ui/accessibility/platform/ax_platform_node_cocoa.mm b/ui/accessibility/platform/ax_platform_node_cocoa.mm
-index e1da773ca1c4b70ad0511307f8eeb1f006aef6c3..0206df00974012331c58430856e2876c3d7cb4df 100644
+index 83402fd56e6a727cfb3063a8de6344256c880787..7f2cdce7b6a59118b04a93cf260648ed9959e536 100644
 --- a/ui/accessibility/platform/ax_platform_node_cocoa.mm
 +++ b/ui/accessibility/platform/ax_platform_node_cocoa.mm
-@@ -1566,6 +1566,7 @@ bool IsAXSetter(SEL selector) {
+@@ -1584,6 +1584,7 @@ bool IsAXSetter(SEL selector) {
    if (!_node)
      return nil;
  
