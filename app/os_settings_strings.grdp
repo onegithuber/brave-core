@@ -516,12 +516,6 @@
   <message name="IDS_SETTINGS_SUGGESTIONS_EMOJI_SUGGESTION_DESCRIPTION" desc="The description for emoji suggestion (when an user types a word, some emojis might be suggested for the user to insert after) section.">
     Get emoji suggestions based on what you're typing
   </message>
-  <message name="IDS_SETTINGS_SUGGESTIONS_PREDICTIVE_WRITING_TITLE" desc="The label for predictive writing suggestions (when a user types a word, some text might be suggested for the user to insert after) section.">
-    Predictive writing
-  </message>
-  <message name="IDS_SETTINGS_SUGGESTIONS_PREDICTIVE_WRITING_DESCRIPTION" desc="The description for predictive writing suggestions (when a user types a word, some text might be suggested for the user to insert after) section.">
-    Show inline writing suggestions that appear as you type
-  </message>
 
   <!-- Input Method Options Section -->
   <message name="IDS_SETTINGS_INPUT_METHOD_OPTIONS_BASIC" desc="The label for the section in input method options page containing basic options.">
@@ -535,6 +529,9 @@
   </message>
   <message name="IDS_SETTINGS_INPUT_METHOD_OPTIONS_VIRTUAL_KEYBOARD" desc="The label for the section in input method options page containing the virtual keyboard options.">
     On-screen keyboard
+  </message>
+  <message name="IDS_SETTINGS_INPUT_METHOD_OPTIONS_SUGGESTIONS" desc="The label for the section in input method options page containing suggestion options.">
+    Suggestions
   </message>
   <message name="IDS_SETTINGS_INPUT_METHOD_OPTIONS_ENABLE_DOUBLE_SPACE_PERIOD" desc="The label for the input method option to enable double-space to type period (when an user types two consecutive space, it outputs a period).">
     Double-space to type period
@@ -553,6 +550,9 @@
   </message>
   <message name="IDS_SETTINGS_INPUT_METHOD_OPTIONS_AUTO_CORRECTION" desc="The label for the input method option to enable auto correction.">
     Auto-correction
+  </message>
+  <message name="IDS_SETTINGS_INPUT_METHOD_OPTIONS_PREDICTIVE_WRITING" desc="The label for the input method option to enable predictive writing.">
+    Predictive writing
   </message>
   <message name="IDS_SETTINGS_INPUT_METHOD_OPTIONS_XKB_LAYOUT" desc="The label for the input method option to let the users choose their keyboard layout.">
     Keyboard layout
@@ -2040,6 +2040,12 @@ Press an assigned switch or key to remove assignment.
   </message>
   <message name="IDS_SETTINGS_BLUETOOTH_DEVICE_DETAIL_FORGET_A11Y_LABEL" desc="Bluetooth device details page: Accessibility label for button that forgets the Bluetooth device when clicked.">
    Forget <ph name="DEVICE_NAME">$1<ex>Beats</ex></ph>
+  </message>
+  <message name="IDS_SETTINGS_BLUETOOTH_DEVICE_DETAIL_HID_MESSAGE_CONNECTED" desc="Bluetooth device details page: Message displayed for devices that are currently connected that will disconnect automatically when turned off or not used.">
+    Device will disconnect automatically when it's turned off or isn't being used
+  </message>
+  <message name="IDS_SETTINGS_BLUETOOTH_DEVICE_DETAIL_HID_MESSAGE_DISCONNECTED" desc="Bluetooth device details page: Message displayed for devices that are currently disconnected that will connect automatically when turned on and used.">
+    Device will connect automatically when it's turned on and is being used
   </message>
   <message name="IDS_SETTINGS_BLUETOOTH_DEVICE_DETAIL_NAME" desc="Bluetooth device details page: label informing user the text below is the device name.">
     Device name
