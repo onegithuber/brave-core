@@ -73,6 +73,8 @@ import org.chromium.base.supplier.ObservableSupplier;
 import org.chromium.base.supplier.UnownedUserDataSupplier;
 import org.chromium.base.task.PostTask;
 import org.chromium.base.task.TaskTraits;
+import org.chromium.brave_wallet.mojom.BraveWalletService;
+import org.chromium.brave_wallet.mojom.BraveWalletServiceDappObserver;
 import org.chromium.chrome.R;
 import org.chromium.chrome.browser.ApplicationLifetime;
 import org.chromium.chrome.browser.BraveConfig;
@@ -101,6 +103,7 @@ import org.chromium.chrome.browser.compositor.layouts.Layout;
 import org.chromium.chrome.browser.compositor.layouts.LayoutManagerChrome;
 import org.chromium.chrome.browser.compositor.layouts.LayoutManagerImpl;
 import org.chromium.chrome.browser.compositor.layouts.phone.StackLayout;
+import org.chromium.chrome.browser.crypto_wallet.BraveWalletServiceFactory;
 import org.chromium.chrome.browser.crypto_wallet.activities.BraveWalletActivity;
 import org.chromium.chrome.browser.dependency_injection.ChromeActivityComponent;
 import org.chromium.chrome.browser.flags.ChromeFeatureList;
@@ -159,6 +162,8 @@ import org.chromium.components.embedder_support.util.UrlConstants;
 import org.chromium.components.embedder_support.util.UrlUtilities;
 import org.chromium.components.search_engines.TemplateUrl;
 import org.chromium.components.user_prefs.UserPrefs;
+import org.chromium.mojo.bindings.ConnectionErrorHandler;
+import org.chromium.mojo.system.MojoException;
 import org.chromium.ui.widget.Toast;
 
 import java.text.DateFormat;
@@ -176,7 +181,8 @@ import java.util.concurrent.CopyOnWriteArrayList;
  */
 @JNINamespace("chrome::android")
 public abstract class BraveActivity<C extends ChromeActivityComponent> extends ChromeActivity
-        implements BrowsingDataBridge.OnClearBrowsingDataListener, BraveVpnObserver {
+        implements BrowsingDataBridge.OnClearBrowsingDataListener, BraveVpnObserver,
+                   ConnectionErrorHandler, BraveWalletServiceDappObserver {
     public static final int SITE_BANNER_REQUEST_CODE = 33;
     public static final int VERIFY_WALLET_ACTIVITY_REQUEST_CODE = 34;
     public static final int USER_WALLET_ACTIVITY_REQUEST_CODE = 35;
@@ -222,6 +228,7 @@ public abstract class BraveActivity<C extends ChromeActivityComponent> extends C
     private String mPurchaseToken = "";
     private String mProductId = "";
     private boolean mIsVerification;
+    private BraveWalletService mBraveWalletService;
     public CompositorViewHolder compositorView;
     public View inflatedSettingsBarLayout;
 
@@ -298,6 +305,36 @@ public abstract class BraveActivity<C extends ChromeActivityComponent> extends C
         }
 
         return true;
+    }
+
+    @Override
+    public void onConnectionError(MojoException e) {
+        mBraveWalletService.close();
+        mBraveWalletService = null;
+        InitBraveWalletService();
+    }
+
+    @Override
+    protected void onDestroyInternal() {
+        super.onDestroyInternal();
+        mBraveWalletService.close();
+    }
+
+    private void InitBraveWalletService() {
+        if (mBraveWalletService != null) {
+            return;
+        }
+
+        mBraveWalletService = BraveWalletServiceFactory.getInstance().getBraveWalletService(this);
+        mBraveWalletService.addDappObserver(this);
+    }
+
+    @Override
+    public void onShowPanel() {}
+
+    @Override
+    public void onShowWalletOnboarding() {
+        openBraveWallet();
     }
 
     private void verifySubscription() {
@@ -628,6 +665,7 @@ public abstract class BraveActivity<C extends ChromeActivityComponent> extends C
                 OnboardingPrefManager.getInstance().setDormantUsersNotificationsStarted(true);
             }
         }
+        InitBraveWalletService();
     }
 
     public void setDormantUsersPrefs() {
