@@ -4,7 +4,7 @@
  * You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 import { LEDGER_HARDWARE_VENDOR } from 'gen/brave/components/brave_wallet/common/brave_wallet.mojom.m.js'
-import FilecoinLedgerKeyring, { extractPublicKeyForBLS } from './filecoin_ledger_keyring'
+import FilecoinLedgerKeyring from './filecoin_ledger_keyring'
 import { CoinType } from '@glif/filecoin-address'
 import { LedgerProvider } from '@glif/filecoin-wallet-provider'
 import { BraveWallet } from 'components/brave_wallet_ui/constants/types'
@@ -28,12 +28,6 @@ const createFilecoinKeyring = () => {
   }
   return ledgerHardwareKeyring
 }
-
-test('Extracting BLS public key', () => {
- const privateKey = '6a4b3d3f3ccb3676e34e16bc07a9371dede3a037def6114e79e51705f823723f'
- return expect(extractPublicKeyForBLS(privateKey)).toStrictEqual(
-   '623537373466336438353436643365373937363533613534323365666661376162303664346364333538373639376433363437373938643966653733393136376562656166316566303533663935376137363738656534646530653332613833')
-})
 
 test('Extracting accounts from device', () => {
   return expect(createFilecoinKeyring().getAccounts(-2, 1, CoinType.TEST))

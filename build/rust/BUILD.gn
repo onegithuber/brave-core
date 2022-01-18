@@ -24,6 +24,9 @@ cargo_build("rust_lib") {
     "//brave/components/skus/browser/rs:rust_lib",
     "//brave/components/speedreader/rust/lib",
   ]
+  if (target_cpu == "x64" || target_cpu == "arm64") {
+    deps += [ "//brave/components/bls:rust_lib" ]
+  }
 }
 
 if (is_mac) {

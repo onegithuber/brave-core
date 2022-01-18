@@ -116,6 +116,9 @@ static_library("browser") {
     "//ui/base:base",
     "//url",
   ]
+  if (target_cpu == "x64" || target_cpu == "arm64") {
+    deps += [ "//brave/components/bls/rs:cxx" ]
+  }
 }
 
 config("infura_config") {
