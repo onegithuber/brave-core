@@ -22,6 +22,7 @@ declare namespace Rewards {
   export type Address = { address: string, qr: string | null }
 
   export interface State {
+    version: number
     addresses?: Record<AddressesType, Address>
     adsData: AdsData
     adsHistory: AdsHistory[]
@@ -163,6 +164,7 @@ declare namespace Rewards {
   export interface Promotion {
     promotionId: string
     amount: number
+    createdAt: number
     expiresAt: number
     status: PromotionStatus
     type: PromotionTypes

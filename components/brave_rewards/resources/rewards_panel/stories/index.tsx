@@ -241,3 +241,28 @@ export function Notification () {
     </LocaleContext.Provider>
   )
 }
+
+export function GrantNotification () {
+  return (
+    <LocaleContext.Provider value={locale}>
+      <WithThemeVariables>
+        <div style={{ width: '375px' }}>
+          <NotificationCard
+            notification={{
+              type: 'grant-available',
+              id: '123',
+              grantInfo: {
+                id: '123',
+                type: 'ads',
+                amount: 1.25,
+                createdAt: Date.now(),
+                expiresAt: Date.now() + 1000 * 60 * 60 * 24 * 5
+              },
+              timeStamp: Date.now()
+            } as any}
+          />
+        </div>
+      </WithThemeVariables>
+    </LocaleContext.Provider>
+  )
+}

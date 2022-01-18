@@ -34,6 +34,7 @@ describe('Promotion Reducer', () => {
                 promotionId: 'test-promotion-id',
                 status: 0,
                 type: 0,
+                createdAt: 100,
                 expiresAt: 140
               }
             ]
@@ -46,6 +47,7 @@ describe('Promotion Reducer', () => {
           promotionId: 'test-promotion-id',
           status: 0,
           type: 0,
+          createdAt: 100000,
           expiresAt: 140000
         }
       ]
@@ -83,12 +85,14 @@ describe('Promotion Reducer', () => {
           promotionId: 'test-promotion-id',
           status: 0,
           type: 0,
+          createdAt: 100000,
           expiresAt: 140000
         },
         {
           promotionId: 'test-promotion-id-2',
           status: 0,
           type: 1,
+          createdAt: 100000,
           expiresAt: 140000
         }
       ]
@@ -145,12 +149,14 @@ describe('Promotion Reducer', () => {
           promotionId: 'test-promotion-id',
           status: 0,
           type: 0,
+          createdAt: 100000,
           expiresAt: 140000
         },
         {
           promotionId: 'test-promotion-id-2',
           status: 0,
           type: 1,
+          createdAt: 100000,
           expiresAt: 140000
         }
       ]
@@ -175,12 +181,14 @@ describe('Promotion Reducer', () => {
           promotionId: 'test-promotion-id',
           status: 0,
           type: 0,
+          createdAt: 100000,
           expiresAt: 140000
         },
         {
           promotionId: 'test-promotion-id-2',
           status: 0,
           type: 1,
+          createdAt: 100000,
           expiresAt: 140000,
           captchaImage: 'XXX',
           captchaId: 'id',
@@ -202,12 +210,14 @@ describe('Promotion Reducer', () => {
       initialState.promotions = [
         {
           promotionId: 'test-promotion-id',
+          createdAt: 0,
           expiresAt: 0,
           amount: 1.0,
           type: 0
         },
         {
           promotionId: 'test-promotion-id-2',
+          createdAt: 0,
           expiresAt: 0,
           amount: 1.0,
           type: 1,
@@ -229,6 +239,7 @@ describe('Promotion Reducer', () => {
       expectedState.promotions = [
         {
           promotionId: 'test-promotion-id',
+          createdAt: 0,
           expiresAt: 0,
           amount: 1.0,
           type: 0
@@ -239,6 +250,7 @@ describe('Promotion Reducer', () => {
           captchaId: '',
           captchaImage: '',
           captchaStatus: null,
+          createdAt: 0,
           expiresAt: 0,
           hint: '',
           type: 1
@@ -259,12 +271,14 @@ describe('Promotion Reducer', () => {
       initialState.promotions = [
         {
           promotionId: 'test-promotion-id',
+          createdAt: 0,
           expiresAt: 0,
           amount: 1.0,
           type: 0
         },
         {
           promotionId: 'test-promotion-id-2',
+          createdAt: 0,
           expiresAt: 0,
           amount: 1.0,
           type: 1,
@@ -286,6 +300,7 @@ describe('Promotion Reducer', () => {
       expectedState.promotions = [
         {
           promotionId: 'test-promotion-id',
+          createdAt: 0,
           expiresAt: 0,
           amount: 1.0,
           type: 0
@@ -295,6 +310,7 @@ describe('Promotion Reducer', () => {
           amount: 1,
           captchaImage: 'XXX',
           captchaStatus: null,
+          createdAt: 0,
           expiresAt: 0,
           hint: 'blue',
           status: 4,
@@ -317,6 +333,7 @@ describe('Promotion Reducer', () => {
             result: 0,
             promotion: {
               promotionId: 'test-promotion-id',
+              createdAt: 10000,
               expiresAt: 11000,
               amount: 30.0
             }
@@ -342,12 +359,14 @@ describe('Promotion Reducer', () => {
         {
           promotionId: 'test-promotion-id',
           captchaStatus: 'start',
+          createdAt: 0,
           expiresAt: 0,
           amount: 1.0,
           type: 0
         },
         {
           promotionId: 'test-promotion-id-2',
+          createdAt: 0,
           expiresAt: 0,
           amount: 1.0,
           type: 1,
@@ -364,6 +383,7 @@ describe('Promotion Reducer', () => {
             result: 0,
             promotion: {
               promotionId: 'test-promotion-id',
+              createdAt: 0,
               expiresAt: 0,
               amount: 1.0,
               type: 1
@@ -379,6 +399,7 @@ describe('Promotion Reducer', () => {
           captchaId: '',
           captchaImage: '',
           captchaStatus: 'start',
+          createdAt: 0,
           expiresAt: 0,
           hint: '',
           amount: 1.0,
@@ -387,6 +408,7 @@ describe('Promotion Reducer', () => {
         },
         {
           promotionId: 'test-promotion-id-2',
+          createdAt: 0,
           expiresAt: 0,
           amount: 1.0,
           type: 1,
@@ -407,12 +429,14 @@ describe('Promotion Reducer', () => {
       initialState.promotions = [
         {
           promotionId: 'test-promotion-id',
+          createdAt: 0,
           expiresAt: 0,
           amount: 1.0,
           type: 0
         },
         {
           promotionId: 'test-promotion-id-2',
+          createdAt: 0,
           expiresAt: 0,
           amount: 1.0,
           type: 1,
@@ -440,12 +464,14 @@ describe('Promotion Reducer', () => {
         {
           promotionId: 'test-promotion-id',
           captchaStatus: 'wrongPosition',
+          createdAt: 0,
           expiresAt: 0,
           amount: 1.0,
           type: 0
         },
         {
           promotionId: 'test-promotion-id-2',
+          createdAt: 0,
           expiresAt: 0,
           amount: 1.0,
           type: 1,

@@ -76,6 +76,7 @@ const rewardsReducer: Reducer<NewTab.State | undefined> = (state: NewTab.State, 
           promotionId: promotion.promotionId,
           type: promotion.type,
           createdAt: promotion.createdAt,
+          expiresAt: promotion.expiresAt,
           amount: promotion.amount
         })
 
