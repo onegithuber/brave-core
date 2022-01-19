@@ -1,5 +1,6 @@
 -AdsPageLoadMetricsObserverBrowserTest.PageAdDensityMultipleFrames
 -AdsPageLoadMetricsObserverBrowserTest.PageAdDensityRecordsPageMax
+-All/ScrollToTextFragmentPolicyTest.RunPolicyTest/*
 -All/StartupBrowserCreatorPickerTest.TestSetup/*
 -BluetoothLowEnergyApiTest.ConnectInProgress
 -BluetoothLowEnergyApiTest.UuidPermissionEvents
