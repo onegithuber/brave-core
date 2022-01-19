@@ -34,14 +34,9 @@ class FilecoinKeyring : public HDKeyring {
   void ImportFilecoinAccount(const std::vector<uint8_t>& input_key,
                              const std::string& address);
 
- protected:
-  std::string GetAddressInternal(const std::vector<uint8_t>& payload,
-                                 int protocol) const;
-  std::unique_ptr<HDKey> root_;
-  std::unique_ptr<HDKey> master_key_;
-
  private:
-  friend FilecoinKeyring;
+  std::string GetFilecoinAddressInternal(const std::vector<uint8_t>& payload,
+                                         int protocol) const;
   FilecoinKeyring(const FilecoinKeyring&) = delete;
   FilecoinKeyring& operator=(const FilecoinKeyring&) = delete;
 };
