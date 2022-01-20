@@ -121,6 +121,9 @@ const checkVersionsMatch = () => {
 }
 
 const build = (buildConfig = config.defaultBuildConfig, options) => {
+  // TODO: do not merge
+  if (buildConfig == 'Release')
+    buildConfig = 'Static'
   config.buildConfig = buildConfig
   config.update(options)
   checkVersionsMatch()

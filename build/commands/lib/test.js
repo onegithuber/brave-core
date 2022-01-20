@@ -21,6 +21,9 @@ const getTestsToRun = (config, suite) => {
 }
 
 const test = (passthroughArgs, suite, buildConfig = config.defaultBuildConfig, options) => {
+  if (buildConfig == 'Release') {
+    buildConfig = 'Static'
+  }
   config.buildConfig = buildConfig
   config.update(options)
 

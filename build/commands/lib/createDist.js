@@ -4,6 +4,9 @@ const path = require('path')
 const fs = require('fs-extra')
 
 const createDist = (buildConfig = config.defaultBuildConfig, options) => {
+  if (buildConfig == 'Release') {
+    buildConfig = 'Static'
+  }
   config.buildConfig = buildConfig
   config.update(options)
   util.updateBranding()

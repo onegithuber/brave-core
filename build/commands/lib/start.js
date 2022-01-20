@@ -6,6 +6,9 @@ const config = require('../lib/config')
 const util = require('../lib/util')
 
 const start = (passthroughArgs, buildConfig = config.defaultBuildConfig, options) => {
+  if (buildConfig == 'Release') {
+    buildConfig = 'Static'
+  }
   config.buildConfig = buildConfig
   config.update(options)
 
