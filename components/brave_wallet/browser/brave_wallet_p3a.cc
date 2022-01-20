@@ -15,7 +15,7 @@
 namespace brave_wallet {
 
 // Has the Wallet keyring been created?
-// i) Yes, ii) No
+// i) No, ii) Yes
 void RecordKeyringCreated(mojom::KeyringInfoPtr keyring_info) {
   const int max_bucket = 2;
   UMA_HISTOGRAM_EXACT_LINEAR(
