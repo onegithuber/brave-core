@@ -11,6 +11,7 @@
 #include "base/hash/hash.h"
 #include "brave/browser/brave_ads/ads_service_factory.h"
 #include "chrome/browser/profiles/profile.h"
+#include "chrome/common/webui_url_constants.h"
 #include "components/dom_distiller/content/browser/distiller_javascript_utils.h"
 #include "components/dom_distiller/content/browser/distiller_page_web_contents.h"
 #include "components/sessions/content/session_tab_helper.h"
@@ -124,6 +125,10 @@ void AdsTabHelper::DidFinishNavigation(
   if (!ads_service_ || !navigation_handle->IsInMainFrame() ||
       !navigation_handle->HasCommitted() || !tab_id_.is_valid()) {
     return;
+  }
+
+  if (navigation_handle->GetURL() == GURL(chrome::kChromeUINewTabURL)) {
+    ads_service_->GetNewTabPageAd();
   }
 
   if (navigation_handle->HasUserGesture()) {

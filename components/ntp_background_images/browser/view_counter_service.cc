@@ -15,9 +15,11 @@
 #include "base/files/file_path.h"
 #include "base/logging.h"
 #include "base/metrics/histogram_macros.h"
+#include "bat/ads/new_tab_page_ad_info.h"
 #include "bat/ads/pref_names.h"
 #include "bat/ads/public/interfaces/ads.mojom.h"
 #include "brave/components/brave_ads/browser/ads_service.h"
+#include "brave/components/brave_ads/common/features.h"
 #include "brave/components/brave_referrals/buildflags/buildflags.h"
 #include "brave/components/brave_rewards/common/pref_names.h"
 #include "brave/components/ntp_background_images/browser/features.h"
@@ -103,15 +105,9 @@ ViewCounterService::~ViewCounterService() = default;
 
 // TODO(tmancey): HERE
 void ViewCounterService::BrandedWallpaperWillBeDisplayed(
-    const std::string& wallpaper_id) {
+    const std::string& wallpaper_id,
+    const std::string* creative_instance_id) {
   if (ads_service_) {
-    // TODO(tmancey): HERE (For triggering ad events)
-    base::Value data = ViewCounterService::GetCurrentWallpaperForDisplay();
-    DCHECK(!data.is_none());
-
-    // TODO(tmancey): HERE
-    const std::string* creative_instance_id =
-        data.FindStringKey(kCreativeInstanceIDKey);
     ads_service_->OnNewTabPageAdEvent(
         wallpaper_id, creative_instance_id ? *creative_instance_id : "",
         ads::mojom::NewTabPageAdEventType::kViewed);
@@ -136,7 +132,7 @@ NTPSponsoredImagesData* ViewCounterService::GetCurrentBrandedWallpaperData()
 }
 
 // TODO(tmancey): HERE (Fetches wallpaper for display)
-base::Value ViewCounterService::GetCurrentWallpaperForDisplay() const {
+base::Value ViewCounterService::GetCurrentWallpaperForDisplay() {
   if (ShouldShowBrandedWallpaper()) {
     return GetCurrentBrandedWallpaper();
   } else {
@@ -154,17 +150,37 @@ base::Value ViewCounterService::GetCurrentWallpaper() const {
 }
 
 // TODO(tmancey): HERE (Get wallpaper for display)
-base::Value ViewCounterService::GetCurrentBrandedWallpaper() const {
-  if (GetCurrentBrandedWallpaperData()) {
-    size_t current_campaign_index;
-    size_t current_background_index;
-    std::tie(current_campaign_index, current_background_index) =
-        model_.GetCurrentBrandedImageIndex();
-    return GetCurrentBrandedWallpaperData()->GetBackgroundAt(
-        current_campaign_index, current_background_index);
+base::Value ViewCounterService::GetCurrentBrandedWallpaper() {
+  NTPSponsoredImagesData* images_data = GetCurrentBrandedWallpaperData();
+  if (!images_data) {
+    return base::Value();
   }
 
-  return base::Value();
+  const bool ntp_ads_enabled = base::FeatureList::IsEnabled(
+      brave_ads::features::kNewTabPageSponsoredImageAds);
+  if (!ntp_ads_enabled || images_data->IsSuperReferral() || !ads_service_) {
+    return GetCurrentBrandedWallpaperFromModel();
+  }
+
+  absl::optional<std::string> json = ads_service_->GetCachedNewTabPageAd();
+  if (!json) {
+    model_.OnBrandedWallpaperNotPermitted();
+    return GetCurrentWallpaper();
+  }
+
+  ads::NewTabPageAdInfo ad_info;
+  ad_info.FromJson(*json);
+
+  return GetCurrentBrandedWallpaperData()->GetBackgroundByAdInfo(ad_info);
+}
+
+base::Value ViewCounterService::GetCurrentBrandedWallpaperFromModel() const {
+  size_t current_campaign_index;
+  size_t current_background_index;
+  std::tie(current_campaign_index, current_background_index) =
+      model_.GetCurrentBrandedImageIndex();
+  return GetCurrentBrandedWallpaperData()->GetBackgroundAt(
+      current_campaign_index, current_background_index);
 }
 
 std::vector<TopSite> ViewCounterService::GetTopSitesData() const {

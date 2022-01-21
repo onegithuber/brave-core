@@ -17,9 +17,11 @@
 #include "base/memory/weak_ptr.h"
 #include "base/task/cancelable_task_tracker.h"
 #include "base/timer/timer.h"
+#include "base/values.h"
 #include "bat/ads/ads.h"
 #include "bat/ads/ads_client.h"
 #include "bat/ads/database.h"
+#include "bat/ads/new_tab_page_ad_info.h"
 #include "bat/ads/public/interfaces/ads.mojom.h"
 #include "bat/ledger/mojom_structs.h"
 #include "brave/browser/brave_ads/background_helper/background_helper.h"
@@ -145,6 +147,9 @@ class AdsServiceImpl : public AdsService,
 
   void OnResourceComponentUpdated(const std::string& id) override;
 
+  void GetNewTabPageAd() override;
+  absl::optional<std::string> GetCachedNewTabPageAd() override;
+
   void OnNewTabPageAdEvent(
       const std::string& uuid,
       const std::string& creative_instance_id,
@@ -263,6 +268,8 @@ class AdsServiceImpl : public AdsService,
                             const std::unique_ptr<std::string> response_body);
 
   void OnGetBraveWallet(ledger::type::BraveWalletPtr wallet);
+
+  void OnGetNewTabPageAd(bool success, const std::string& json);
 
   void OnGetInlineContentAd(OnGetInlineContentAdCallback callback,
                             const bool success,
@@ -483,6 +490,8 @@ class AdsServiceImpl : public AdsService,
   base::OneShotTimer onboarding_timer_;
 
   std::unique_ptr<ads::Database> database_;
+
+  absl::optional<std::string> cached_new_tab_page_ad_info_;
 
   ui::IdleState last_idle_state_;
   int last_idle_time_;

@@ -37,6 +37,7 @@
 #include "bat/ads/ads.h"
 #include "bat/ads/ads_history_info.h"
 #include "bat/ads/inline_content_ad_info.h"
+#include "bat/ads/new_tab_page_ad_info.h"
 #include "bat/ads/pref_names.h"
 #include "bat/ads/resources/grit/bat_ads_resources.h"
 #include "bat/ads/statement_info.h"
@@ -1107,6 +1108,30 @@ void AdsServiceImpl::OnOpenNewTabWithAd(const std::string& json) {
   OpenNewTabWithUrl(notification.target_url);
 }
 
+void AdsServiceImpl::GetNewTabPageAd() {
+  if (!connected()) {
+    cached_new_tab_page_ad_info_.reset();
+    return;
+  }
+
+  bat_ads_->GetNewTabPageAd(
+      base::BindOnce(&AdsServiceImpl::OnGetNewTabPageAd, AsWeakPtr()));
+}
+
+absl::optional<std::string> AdsServiceImpl::GetCachedNewTabPageAd() {
+  if (!connected()) {
+    cached_new_tab_page_ad_info_.reset();
+  }
+
+  if (!cached_new_tab_page_ad_info_) {
+    return absl::nullopt;
+  }
+
+  absl::optional<std::string> ad_info = cached_new_tab_page_ad_info_;
+  cached_new_tab_page_ad_info_.reset();
+  return ad_info;
+}
+
 void AdsServiceImpl::OnNewTabPageAdEvent(
     const std::string& uuid,
     const std::string& creative_instance_id,
@@ -1265,6 +1290,15 @@ void AdsServiceImpl::OnURLRequestComplete(
   url_response.headers = headers;
 
   callback(url_response);
+}
+
+void AdsServiceImpl::OnGetNewTabPageAd(bool success, const std::string& json) {
+  if (!success) {
+    cached_new_tab_page_ad_info_.reset();
+    return;
+  }
+
+  cached_new_tab_page_ad_info_ = json;
 }
 
 void AdsServiceImpl::OnGetInlineContentAd(OnGetInlineContentAdCallback callback,

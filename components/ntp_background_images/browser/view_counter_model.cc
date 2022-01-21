@@ -109,6 +109,12 @@ void ViewCounterModel::RegisterPageViewForBackgroundImages() {
   current_wallpaper_image_index_ %= total_image_count_;
 }
 
+void ViewCounterModel::OnBrandedWallpaperNotPermitted() {
+  // Increase background image index
+  current_wallpaper_image_index_++;
+  current_wallpaper_image_index_ %= total_image_count_;
+}
+
 void ViewCounterModel::Reset() {
   current_wallpaper_image_index_ = 0;
   total_image_count_ = 0;
