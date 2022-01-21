@@ -357,6 +357,7 @@ source_set("ui") {
 
   if (enable_sidebar) {
     deps += [
+      "//brave/browser/resources/sidebar:resources",
       "//brave/browser/ui/sidebar",
       "//brave/browser/ui/webui/sidebar:mojo_bindings",
       "//brave/components/sidebar",

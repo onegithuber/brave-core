@@ -117,16 +117,21 @@ void SidebarContainerView::UpdateSidebar() {
 void SidebarContainerView::ShowCustomContextMenu(
     const gfx::Point& point,
     std::unique_ptr<ui::MenuModel> menu_model) {
-  gfx::Point converted = point;
-  ConvertPointToScreen(sidebar_panel_view_, &converted);
+  // Show context menu at in screen coordinates.
+  gfx::Point screen_point = point;
+  ConvertPointToScreen(sidebar_panel_view_, &screen_point);
   context_menu_model_ = std::move(menu_model);
   context_menu_runner_ = std::make_unique<views::MenuRunner>(
       context_menu_model_.get(),
       views::MenuRunner::HAS_MNEMONICS | views::MenuRunner::CONTEXT_MENU);
   const int active_index = sidebar_model_->active_index();
-  DCHECK_NE(-1, active_index);
+  if (active_index == -1) {
+    LOG(ERROR) << __func__
+               << " sidebar panel UI is loaded at non sidebar panel!";
+    return;
+  }
   context_menu_runner_->RunMenuAt(
-      GetWidget(), nullptr, gfx::Rect(converted, gfx::Size()),
+      GetWidget(), nullptr, gfx::Rect(screen_point, gfx::Size()),
       views::MenuAnchorPosition::kTopLeft, ui::MENU_SOURCE_MOUSE,
       sidebar_model_->GetWebContentsAt(active_index)->GetContentNativeView());
 }
