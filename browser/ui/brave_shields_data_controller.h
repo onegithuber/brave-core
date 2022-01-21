@@ -16,6 +16,8 @@
 #include "content/public/browser/web_contents_user_data.h"
 
 using brave_shields::mojom::AdBlockMode;
+using brave_shields::mojom::FingerprintMode;
+using brave_shields::mojom::CookieBlockMode;
 using content::NavigationEntry;
 
 namespace brave_shields {
@@ -42,7 +44,12 @@ class BraveShieldsDataController
   bool GetBraveShieldsEnabled();
   GURL GetCurrentSiteURL();
   AdBlockMode GetAdBlockMode();
+  FingerprintMode GetFingerprintMode();
+  CookieBlockMode GetCookieBlockMode();
+  bool GetHTTPSEverywhereEnabled();
+  bool GetNoScriptEnabled();
   void SetAdBlockMode(AdBlockMode mode);
+  void SetFingerprintMode(FingerprintMode mode);
 
   void AddObserver(Observer* obs);
   void RemoveObserver(Observer* obs);
@@ -55,6 +62,8 @@ class BraveShieldsDataController
 
   void DidFinishNavigation(
       content::NavigationHandle* navigation_handle) override;
+
+  void ReloadWebContents();
 
   base::ObserverList<Observer> observer_list_;
   std::set<GURL> resource_list_blocked_ads_;

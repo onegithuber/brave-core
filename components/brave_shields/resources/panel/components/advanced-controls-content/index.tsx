@@ -3,8 +3,26 @@ import * as React from 'react'
 import * as S from './style'
 import Toggle from '../../../../../web-components/toggle'
 import { getLocale } from '../../../../../common/locale'
-import getPanelBrowserAPI from '../../api/panel_browser_api'
-import { useTrackerOptions } from './hooks'
+import getPanelBrowserAPI, { AdBlockMode, CookieBlockMode, FingerprintMode } from '../../api/panel_browser_api'
+import DataContext from '../../state/context'
+
+const adBlockModeOptions = [
+  { value: AdBlockMode.AGGRESSIVE, text: getLocale('braveShieldsTrackersAndAdsBlockedAgg') },
+  { value: AdBlockMode.STANDARD, text: getLocale('braveShieldsTrackersAndAdsBlockedStd') },
+  { value: AdBlockMode.ALLOW, text: getLocale('braveShieldsTrackersAndAdsAllowAll') }
+]
+
+const cookieBlockModeOptions = [
+  { value: CookieBlockMode.CROSS_SITE_BLOCKED, text: getLocale('braveShieldsCrossCookiesBlocked') },
+  { value: CookieBlockMode.BLOCKED, text: getLocale('braveShieldsCookiesBlocked') },
+  { value: CookieBlockMode.ALLOW, text: getLocale('braveShieldsCookiesBlockedAll') }
+]
+
+const fingerprintModeOptions = [
+  { value: FingerprintMode.STANDARD, text: getLocale('braveShieldsFingerprintingBlockedStd') },
+  { value: FingerprintMode.STRICT, text: getLocale('braveShieldsFingerprintingBlockedAgg') },
+  { value: FingerprintMode.ALLOW, text: getLocale('braveShieldsFingerprintingAllowAll') }
+]
 
 function GlobalSettings () {
   const handleAnchorClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
@@ -35,19 +53,7 @@ function GlobalSettings () {
 }
 
 function AdvancedControlsContent () {
-  const { adControlType, adControlTypeOptions, handleAdControlTypeChange } = useTrackerOptions()
-
-  const cookiesOptions = [
-    { text: getLocale('braveShieldsCrossCookiesBlocked') },
-    { text: getLocale('braveShieldsCookiesBlocked') },
-    { text: getLocale('braveShieldsCookiesBlockedAll') }
-  ]
-
-  const fingerprintingOptions = [
-    { text: getLocale('braveShieldsFingerprintingBlockedStd') },
-    { text: getLocale('braveShieldsFingerprintingBlockedAgg') },
-    { text: getLocale('braveShieldsFingerprintingAllowAll') }
-  ]
+  const { siteSettings } = React.useContext(DataContext)
 
   return (
     <section
@@ -66,17 +72,53 @@ function AdvancedControlsContent () {
             <span>10</span>
           </S.ControlCount>
           <select
-            value={adControlType}
+            value={siteSettings?.adBlockMode}
             aria-label={getLocale('braveShieldsTrackersAndAds')}
-            onChange={handleAdControlTypeChange}
           >
-            {adControlTypeOptions.map((entry, i) => {
+            {adBlockModeOptions.map((entry, i) => {
               return (
                 <option value={entry.value} key={i}>
                   {entry.text}
                 </option>
               )
             })}
+          </select>
+        </S.ControlGroup>
+        <S.ControlGroup>
+          <S.ControlCount disabled />
+          <select
+            value={siteSettings?.cookieBlockMode}
+            aria-label={getLocale('braveShieldsCookiesBlocked')}
+          >
+              {cookieBlockModeOptions.map((entry, i) => {
+                return (
+                  <option value={entry.value} key={i}>
+                    {entry.text}
+                  </option>
+                )
+              })}
+          </select>
+        </S.ControlGroup>
+        <S.ControlGroup>
+          <S.ControlCount
+            aria-label={getLocale('braveShieldsFingerprintingBlocked')}
+            aria-expanded='false'
+            disabled
+          >
+            <S.CaratDown />
+            <span>0</span>
+          </S.ControlCount>
+          <select
+            value={siteSettings?.fingerprintMode}
+            aria-label={getLocale('braveShieldsFingerprintingBlocked')}
+          >
+            {fingerprintModeOptions.map((entry, i) => {
+                return (
+                  <option value={entry.value} key={i}>
+                    {entry.text}
+                  </option>
+                )
+              })}
           </select>
         </S.ControlGroup>
         <S.ControlGroup>
@@ -91,6 +133,7 @@ function AdvancedControlsContent () {
           <label>
             <span>{getLocale('braveShieldsConnectionsUpgraded')}</span>
             <Toggle
+              isOn={siteSettings?.isHttpsEverywhereEnabled}
               size='sm'
               accessibleLabel='Enable HTTPS'
             />
@@ -108,41 +151,11 @@ function AdvancedControlsContent () {
           <label>
             <span>{getLocale('braveShieldsScriptsBlocked')}</span>
             <Toggle
+              isOn={siteSettings?.isNoscriptEnabled}
               size='sm'
               accessibleLabel={getLocale('braveShieldsScriptsBlockedEnable')}
             />
           </label>
-        </S.ControlGroup>
-        <S.ControlGroup>
-          <S.ControlCount disabled />
-          <select aria-label={getLocale('braveShieldsCookiesBlocked')}>
-              {cookiesOptions.map((entry, i) => {
-                return (
-                  <option key={i}>
-                    {entry.text}
-                  </option>
-                )
-              })}
-          </select>
-        </S.ControlGroup>
-        <S.ControlGroup>
-          <S.ControlCount
-            aria-label={getLocale('braveShieldsFingerprintingBlocked')}
-            aria-expanded='false'
-            disabled
-          >
-            <S.CaratDown />
-            <span>0</span>
-          </S.ControlCount>
-          <select aria-label={getLocale('braveShieldsFingerprintingBlocked')}>
-            {fingerprintingOptions.map((entry, i) => {
-                return (
-                  <option key={i}>
-                    {entry.text}
-                  </option>
-                )
-              })}
-          </select>
         </S.ControlGroup>
       </S.SettingsBox>
       <GlobalSettings />
