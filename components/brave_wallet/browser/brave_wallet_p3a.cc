@@ -1,4 +1,4 @@
-/* Copyright 2020 The Brave Authors. All rights reserved.
+/* Copyright 2022 The Brave Authors. All rights reserved.
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this file,
  * You can obtain one at http://mozilla.org/MPL/2.0/. */
@@ -59,25 +59,11 @@ void BraveWalletP3A::KeyringCreated() {
   keyring_service_->GetKeyringInfo(mojom::kDefaultKeyringId,
                                    base::BindOnce(&RecordKeyringCreated));
 }
-void BraveWalletP3A::KeyringRestored() {}
-void BraveWalletP3A::KeyringReset() {}
-void BraveWalletP3A::Locked() {}
-void BraveWalletP3A::Unlocked() {}
-void BraveWalletP3A::BackedUp() {}
-void BraveWalletP3A::AccountsChanged() {}
-void BraveWalletP3A::AutoLockMinutesChanged() {}
-void BraveWalletP3A::SelectedAccountChanged() {}
 
 // BraveWalletServiceObserver
-void BraveWalletP3A::OnActiveOriginChanged(const std::string& origin) {}
 void BraveWalletP3A::OnDefaultWalletChanged(
     brave_wallet::mojom::DefaultWallet default_wallet) {
   RecordDefaultWalletSetting(pref_service_);
 }
-void BraveWalletP3A::OnDefaultBaseCurrencyChanged(const std::string& currency) {
-}
-void BraveWalletP3A::OnDefaultBaseCryptocurrencyChanged(
-    const std::string& cryptocurrency) {}
-void BraveWalletP3A::OnNetworkListChanged() {}
 
 }  // namespace brave_wallet

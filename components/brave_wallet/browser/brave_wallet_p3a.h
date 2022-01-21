@@ -1,4 +1,4 @@
-/* Copyright 2020 The Brave Authors. All rights reserved.
+/* Copyright 2022 The Brave Authors. All rights reserved.
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this file,
  * You can obtain one at http://mozilla.org/MPL/2.0/. */
@@ -33,29 +33,29 @@ class BraveWalletP3A : public mojom::BraveWalletServiceObserver,
 
   // KeyringServiceObserver
   void KeyringCreated() override;
-  void KeyringRestored() override;
-  void KeyringReset() override;
-  void Locked() override;
-  void Unlocked() override;
-  void BackedUp() override;
-  void AccountsChanged() override;
-  void AutoLockMinutesChanged() override;
-  void SelectedAccountChanged() override;
+  void KeyringRestored() override {}
+  void KeyringReset() override {}
+  void Locked() override {}
+  void Unlocked() override {}
+  void BackedUp() override {}
+  void AccountsChanged() override {}
+  void AutoLockMinutesChanged() override {}
+  void SelectedAccountChanged() override {}
 
   // BraveWalletServiceObserver
-  void OnActiveOriginChanged(const std::string& origin) override;
+  void OnActiveOriginChanged(const std::string& origin) override {}
   void OnDefaultWalletChanged(
       brave_wallet::mojom::DefaultWallet wallet) override;
-  void OnDefaultBaseCurrencyChanged(const std::string& currency) override;
+  void OnDefaultBaseCurrencyChanged(const std::string& currency) override {}
   void OnDefaultBaseCryptocurrencyChanged(
-      const std::string& cryptocurrency) override;
-  void OnNetworkListChanged() override;
+      const std::string& cryptocurrency) override {}
+  void OnNetworkListChanged() override {}
 
  private:
   void RecordInitialBraveWalletP3AState();
-  BraveWalletService* wallet_service_;
-  KeyringService* keyring_service_;
-  PrefService* pref_service_ = nullptr;
+  raw_ptr<BraveWalletService> wallet_service_;
+  raw_ptr<KeyringService> keyring_service_;
+  raw_ptr<PrefService> pref_service_ = nullptr;
 
   mojo::Receiver<brave_wallet::mojom::BraveWalletServiceObserver>
       wallet_service_observer_receiver_{this};
