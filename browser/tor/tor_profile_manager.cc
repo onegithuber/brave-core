@@ -44,12 +44,12 @@ TorProfileManager& TorProfileManager::GetInstance() {
 // static
 void TorProfileManager::SwitchToTorProfile(
     Profile* original_profile,
-    ProfileManager::CreateCallback callback) {
+    base::OnceCallback<void(Profile*)> callback) {
   Profile* tor_profile =
       TorProfileManager::GetInstance().GetTorProfile(original_profile);
-  profiles::OpenBrowserWindowForProfile(callback, false, false, false,
-                                        tor_profile,
-                                        Profile::CREATE_STATUS_INITIALIZED);
+  profiles::OpenBrowserWindowForProfile(
+      std::move(callback), /*always_create=*/false,
+      /*is_new_profile=*/false, /*unblock_extensions=*/false, tor_profile);
 }
 
 // static
