@@ -536,6 +536,7 @@ public class BuySendSwapActivity extends BraveWalletBaseActivity
                         if (btnBuySendSwap.isEnabled() && mCurrentBlockchainToken != null
                                 && mCurrentBlockchainToken.isErc20) {
                             // Check for ERC20 token allowance
+                            assert response != null;
                             checkAllowance(mCurrentBlockchainToken.contractAddress,
                                     response.allowanceTarget, fromValue);
                         }
@@ -972,7 +973,7 @@ public class BuySendSwapActivity extends BraveWalletBaseActivity
                 }
 
                 EditText fromValueText = findViewById(R.id.from_value_text);
-                fromValueText.setText(String.format(Locale.getDefault(), "%f", amountToGet));
+                fromValueText.setText(String.format(Locale.getDefault(), "%.8f", amountToGet));
                 radioPerPercent.clearCheck();
                 if (mActivityType == ActivityType.SWAP) {
                     getSendSwapQuota(true, false);
