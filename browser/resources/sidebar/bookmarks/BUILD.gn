@@ -8,7 +8,7 @@ import("//tools/polymer/html_to_js.gni")
 import("//tools/typescript/ts_library.gni")
 import("//ui/webui/resources/tools/generate_grd.gni")
 
-preprocess_folder = "$root_gen_dir/brave/browser/resources/sidebar/bookmarks/preprocessed/bookmarks"
+preprocess_folder = "$root_gen_dir/brave/browser/resources/sidebar/bookmarks/preprocessed"
 
 generate_grd("build_grdp") {
   grd_prefix = "sidebar_bookmarks"
@@ -57,7 +57,7 @@ html_to_js("web_components") {
 
 ts_library("build_ts") {
   tsconfig_base = "tsconfig_base.json"
-  root_dir = "$target_gen_dir/preprocessed/bookmarks"
+  root_dir = "$target_gen_dir/preprocessed"
   out_dir = "$target_gen_dir/tsc"
   in_files = [
     "bookmark_folder.ts",

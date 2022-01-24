@@ -85,8 +85,32 @@
   }
 
   #folderIcon {
-    background-image: url(chrome://theme/IDR_FOLDER_CLOSED);
+<if expr="is_win">
+    background-image: url(chrome://theme/IDR_BRAVE_BOOKMARK_FOLDER_CLOSED_WIN_LIGHT);
+</if>
+<if expr="is_macosx">
+    background-image: url(chrome://theme/IDR_BRAVE_BOOKMARK_FOLDER_CLOSED_LIGHT);
+</if>
+<if expr="is_linux">
+    background-image: url(chrome://theme/IDR_BRAVE_BOOKMARK_FOLDER_CLOSED_LIN_LIGHT);
+</if>
   }
+
+<if expr="not is_macosx">
+  #folderIcon {
+    height: 20px;
+    width: 20px;
+  }
+
+  #folderIcon[open] {
+<if expr="is_win">
+    background-image: url(chrome://theme/IDR_BRAVE_BOOKMARK_FOLDER_OPEN_WIN_LIGHT);
+</if>
+<if expr="is_linux">
+    background-image: url(chrome://theme/IDR_BRAVE_BOOKMARK_FOLDER_OPEN_LIN_LIGHT);
+</if>
+  }
+</if>
 
   /**
    * Folder icons are OS-specific. On Mac, there is a separate folder icon
@@ -94,13 +118,18 @@
    * and the icon for that is slightly larger. This is mirroring the icons
    * used in chrome://bookmarks.
    */
-<if expr="is_macosx">
   @media (prefers-color-scheme: dark) {
     #folderIcon {
-      background-image: url(chrome://theme/IDR_FOLDER_CLOSED_WHITE);
-    }
-  }
+<if expr="is_win">
+    background-image: url(chrome://theme/IDR_BRAVE_BOOKMARK_FOLDER_CLOSED_WIN_DARK);
 </if>
+<if expr="is_macosx">
+      background-image: url(chrome://theme/IDR_BRAVE_BOOKMARK_FOLDER_CLOSED_DARK);
+</if>
+<if expr="is_linux">
+    background-image: url(chrome://theme/IDR_BRAVE_BOOKMARK_FOLDER_CLOSED_LIN_DARK);
+</if>
+    }
 
 <if expr="not is_macosx">
     #folderIcon {
@@ -109,9 +138,15 @@
     }
 
     #folderIcon[open] {
-      background-image: url(chrome://theme/IDR_FOLDER_OPEN);
+<if expr="is_win">
+      background-image: url(chrome://theme/IDR_BRAVE_BOOKMARK_FOLDER_OPEN_WIN_DARK);
+</if>
+<if expr="is_linux">
+      background-image: url(chrome://theme/IDR_BRAVE_BOOKMARK_FOLDER_OPEN_LIN_DARK);
+</if>
     }
 </if>
+  }
 
   .title {
     grid-area: title;
