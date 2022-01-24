@@ -27,11 +27,11 @@ namespace federated {
 BraveFederatedService::BraveFederatedService(
     PrefService* prefs,
     PrefService* local_state,
-    const base::FilePath& brave_federated_path,
+    const base::FilePath& browser_context_path,
     scoped_refptr<network::SharedURLLoaderFactory> url_loader_factory)
     : prefs_(prefs),
       local_state_(local_state),
-      brave_federated_path_(brave_federated_path),
+      browser_context_path_(browser_context_path),
       url_loader_factory_(url_loader_factory) {
   InitPrefChangeRegistrar();
   Start();
@@ -53,7 +53,7 @@ void BraveFederatedService::InitPrefChangeRegistrar() {
 
 void BraveFederatedService::Start() {
   base::FilePath db_path(
-      brave_federated_path_.AppendASCII("data_store.sqlite"));
+      browser_context_path_.AppendASCII("data_store.sqlite"));
 
   data_store_service_.reset(new DataStoreService(db_path));
   data_store_service_->Init();

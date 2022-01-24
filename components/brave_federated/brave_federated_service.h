@@ -38,7 +38,7 @@ class BraveFederatedService : public KeyedService {
   BraveFederatedService(
       PrefService* prefs,
       PrefService* local_state,
-      const base::FilePath& brave_federated_path,
+      const base::FilePath& browser_context_path,
       scoped_refptr<network::SharedURLLoaderFactory> url_loader_factory);
   ~BraveFederatedService() override;
 
@@ -63,7 +63,7 @@ class BraveFederatedService : public KeyedService {
   PrefService* prefs_;
   PrefService* local_state_;
   PrefChangeRegistrar local_state_change_registrar_;
-  const base::FilePath& brave_federated_path_;
+  const base::FilePath& browser_context_path_;
 
   std::unique_ptr<OperationalPatterns> operational_patterns_;
   std::shared_ptr<DataStoreService> data_store_service_;
