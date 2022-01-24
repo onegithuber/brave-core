@@ -40,13 +40,16 @@
 -All/PrerenderingChangePasswordNavigationThrottleBrowserTest.*
 -All/PrintPreviewDialogControllerBrowserTest.*
 -All/ProcessManagementExtensionIsolationTest.*
+-All/ProfileNetworkContextServiceCertVerifierBuiltinPermissionsPolicyTest.*
 -All/ProfilePickerCreationFlowEphemeralProfileBrowserTest.*
 -All/PromotionalTabsEnabledPolicyWhatsNewTest.*
 -All/QuietUIPromoBrowserTest.*
 -All/ReportingBrowserTest.*
 -All/SafeBrowsingThreatDetailsPrerenderBrowserTest.*
+-All/ScrollToTextFragmentPolicyTest.*
 -All/SearchEnginePreconnectorForegroundBrowserTest.*
 -All/SearchPrefetchServiceEnabledBrowserTest.*
+-All/StartupBrowserCreatorPickerTest.*
 -All/SubframeSameFrameDownloadBrowserTest_AdFrame.*
 -All/SubframeSameFrameDownloadBrowserTest_Sandbox.*
 -All/SubresourceWebBundlesContentScriptApiTest.*
@@ -181,6 +184,7 @@
 -FileSystemAccessBrowserTest.*
 -FindInPageControllerTest.*
 -FirstPartySetsWebSocketBrowserTest.*
+-FirstRunInternalPosixTest.*
 -FirstRunMasterPrefsVariationsSeedTests/FirstRunMasterPrefsVariationsSeedTest.*
 -FlagAndSettings/SamePartyIsFirstPartyCookiePolicyBrowserTest.*
 -FlocIdProviderAutoDenyRemotePermissionBrowserTest.*
@@ -221,6 +225,7 @@
 -LazyBackgroundPageApiTest.*
 -LazyLoadPrerenderBrowserTest.*
 -LiveCaptionSpeechRecognitionHostTest.*
+-LoadAndLaunchExtensionBrowserTest.*
 -LoadImageBrowserTest.*
 -LoadingPredictorBrowserTest.*
 -LoadingPredictorBrowserTestWithNoLocalPredictions.*
@@ -316,6 +321,8 @@
 -PrivateNetworkAccessWithFeatureEnabledBrowserTest.*
 -ProcessManagementTest.*
 -ProcessManagerBrowserTest.*
+-ProfileBrowserTest.*
+-ProfileBrowserTestWithoutDestroyProfile.*
 -ProfileListDesktopBrowserTest.*
 -ProfileMainNetworkContext/NetworkContextConfigurationReportingAndNelBrowserTest.*
 -ProfileManagerNonAsciiBrowserTest.*
@@ -367,6 +374,7 @@
 -ServiceWorkerBackgroundSyncTest.*
 -ServiceWorkerBasedBackgroundTest.*
 -ServiceWorkerTest.*
+-SessionRestoreSilentLaunchTest.*
 -SessionRestoreTest.*
 -SettingsOverriddenParamsProvidersBrowserTest.*
 -SharedClipboardBrowserTest.*
@@ -384,6 +392,7 @@
 -StartupBrowserCreatorFirstRunTest.*
 -StartupBrowserCreatorPickerNoParamsTest.*
 -StartupBrowserCreatorTest.*
+-StartupHelperBrowserTest.*
 -StorageAccessAPIBrowserTest.*
 -SubframeTaskBrowserTest.*
 -SyncAwareCounterTest.*
@@ -406,6 +415,7 @@
 -UkmBrowserTestWithDemographics.*
 -UkmBrowserTestWithSyncTransport.*
 -UkmConsentParamBrowserTests/UkmConsentParamBrowserTest.*
+-UkmWorkerBrowserTest.*
 -UnifiedConsentBrowserTest.*
 -UpdatedGreaseFeatureParamTest.*
 -UpdateServiceTest.*
@@ -424,10 +434,12 @@
 -WebAppFrameToolbarBrowserTest.*
 -WebAppMoverBadPatternBrowsertest.*
 -WebAppTabStripLinkCapturingBrowserTest.*
+-WebNavigationApiBackForwardCacheTest.*
 -WebrtcLoggingPrivateApiBrowserTest.*
 -WebrtcLoggingPrivateApiStartEventLoggingTestFeatureAndPolicyEnabled.*
 -WebrtcLoggingPrivateApiStartEventLoggingTestInIncognitoMode.*
 -WebrtcLoggingPrivateApiTest.*
+-WebRtcSameOriginPolicyBrowserTest.*
 -WebSocketBrowserTest.*
 -WebstoreInstallerBrowserTest.*
 -WebstoreReinstallerBrowserTest.*
