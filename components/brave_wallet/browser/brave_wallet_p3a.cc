@@ -27,7 +27,8 @@ void RecordKeyringCreated(mojom::KeyringInfoPtr keyring_info) {
 // i) AskDeprecated, ii) None, ii) CryptoWallets,
 // iv) BraveWalletPreferExtension, v) BraveWallet
 void RecordDefaultWalletSetting(PrefService* pref_service) {
-  const int max_bucket = 5;
+  const int max_bucket =
+      static_cast<int>(brave_wallet::mojom::DefaultWallet::kMaxValue);
   auto default_wallet = pref_service->GetInteger(kDefaultWallet2);
   UMA_HISTOGRAM_EXACT_LINEAR("Brave.Wallet.DefaultWalletSetting",
                              default_wallet, max_bucket);
