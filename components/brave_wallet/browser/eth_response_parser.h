@@ -19,6 +19,7 @@ namespace eth {
 
 bool ParseAddressResult(const std::string& json, std::string* address);
 bool ParseEthGetBlockNumber(const std::string& json, uint256_t* block_num);
+bool ParseEthGetFeeHistory(const std::string& json, std::string* base_fee_per_gas);
 // Returns the balance of the account of given address.
 bool ParseEthGetBalance(const std::string& json, std::string* hex_balance);
 bool ParseEthGetTransactionCount(const std::string& json, uint256_t* count);

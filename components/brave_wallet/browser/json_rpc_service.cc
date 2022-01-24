@@ -400,6 +400,36 @@ void JsonRpcService::OnGetBlockNumber(
   std::move(callback).Run(block_number, mojom::ProviderError::kSuccess, "");
 }
 
+void JsonRpcService::GetFeeHistory(GetFeeHistoryCallback callback) {
+  auto internal_callback =
+      base::BindOnce(&JsonRpcService::OnGetFeeHistory,
+                     weak_ptr_factory_.GetWeakPtr(), std::move(callback));
+  return Request(eth_feeHistory(), true, std::move(internal_callback));
+}
+
+void JsonRpcService::OnGetFeeHistory(
+    GetFeeHistoryCallback callback,
+    const int status,
+    const std::string& body,
+    const base::flat_map<std::string, std::string>& headers) {
+  if (status < 200 || status > 299) {
+    std::move(callback).Run(
+        0, mojom::ProviderError::kInternalError,
+        l10n_util::GetStringUTF8(IDS_WALLET_INTERNAL_ERROR));
+    return;
+  }
+  std::string base_fee_per_gas;
+  if (!ParseEthGetFeeHistory(body, &base_fee_per_gas)) {
+    mojom::ProviderError error;
+    std::string error_message;
+    ParseErrorResult(body, &error, &error_message);
+    std::move(callback).Run(0, error, error_message);
+    return;
+  }
+
+  std::move(callback).Run(hex_balance, mojom::ProviderError::kSuccess, "");
+}
+
 void JsonRpcService::GetBalance(const std::string& address,
                                 mojom::CoinType coin,
                                 JsonRpcService::GetBalanceCallback callback) {

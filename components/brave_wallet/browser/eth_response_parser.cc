@@ -51,6 +51,95 @@ bool ParseEthGetBlockNumber(const std::string& json, uint256_t* block_num) {
   return true;
 }
 
+bool ParseEthGetFeeHistory(const std::string& json,
+  std::vector<std::string>* base_fee_per_gas,
+  std::vector<double>* gas_used_ratio,
+  std::string* oldest_block,
+  std::vector<std::vector<std::string> >* reward) {
+  CHECK(base_fee_per_gas);
+  CHECK(gas_used_ratio);
+  CHECK(oldest_block);
+  CHECK(reward);
+
+  base_fee_per_gas->clear();
+  gas_used_ratio->clear();
+  oldest_block_fee->clear();
+  reward->clear();
+
+  base::Value result;
+  if (!ParseResult(json, &result))
+    return false;
+  const base::DictionaryValue* result_dict = nullptr;
+  if (!result.GetAsDictionary(&result_dict))
+    return false;
+  DCHECK(result_dict);
+
+  const base::ListValue* base_fee_list = nullptr;
+  if (!result_dict->GetList("baseFeePerGas", &base_fee_list))
+    return false;
+  for (const std::string& entry : base_fee_list->GetList())
+    base_fee_per_gas->push_back(entry);
+
+  const base::ListValue* gas_used_list = nullptr;
+  if (!result_dict->GetList("gasUsedRatio", &base_fee_list))
+    return false;
+  for (double entry : base_fee_list->GetList())
+    gas_used_ratio->push_back(entry);
+
+  if (!result_dict->GetString("oldestBlock", &oldest_block))
+    return false;
+
+
+
+  // "result": {
+  //  "baseFeePerGas": [
+  //    "0x257093e880",
+  //    "0x20f4138789",
+  //    "0x20b04643ea",
+  //    "0x1da8692acc",
+  //    "0x215d00b8c8",
+  //    "0x24beaded75"
+  //  ],
+  //  "gasUsedRatio": [
+  //    0.020687709938714324,
+  //    0.4678514936136911,
+  //    0.12914042746424212,
+  //    0.999758,
+  //    0.9054214892490816
+  //  ],
+  //  "oldestBlock": "0xd6b1b0",
+  //  "reward": [
+  //    [
+  //      "0x77359400",
+  //      "0x77359400",
+  //      "0x3a3eb2ac0"
+  //    ],
+  //    [
+  //      "0x59682f00",
+  //      "0x77359400",
+  //      "0x48ae2f980"
+  //    ],
+  //    [
+  //      "0x59682f00",
+  //      "0x9502f900",
+  //      "0x17d1ffc7d6"
+  //    ],
+  //    [
+  //      "0xee6b2800",
+  //      "0x32bd81734",
+  //      "0xda2b71b34"
+  //    ],
+  //    [
+  //      "0x77359400",
+  //      "0x77359400",
+  //      "0x2816a6cfb"
+  //    ]
+  //  ]
+  // }
+
+  return brave_wallet::ParseSingleStringResult(json, base_fee_per_gas);
+}
+
 bool ParseEthGetBalance(const std::string& json, std::string* hex_balance) {
   return brave_wallet::ParseSingleStringResult(json, hex_balance);
 }

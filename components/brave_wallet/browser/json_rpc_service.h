@@ -63,7 +63,12 @@ class JsonRpcService : public KeyedService, public mojom::JsonRpcService {
       base::OnceCallback<void(uint256_t result,
                               mojom::ProviderError error,
                               const std::string& error_message)>;
+  using GetFeeHistoryCallback =
+      base::OnceCallback<void(const std::string& hex_balance,
+                              mojom::ProviderError error,
+                              const std::string& error_message)>;
   void GetBlockNumber(GetBlockNumberCallback callback);
+  void GetFeeHistory(GetFeeHistoryCallback callback);
 
   void Request(const std::string& json_payload,
                bool auto_retry_on_network_change,
@@ -232,6 +237,11 @@ class JsonRpcService : public KeyedService, public mojom::JsonRpcService {
   void RemoveChainIdRequest(const std::string& chain_id);
   void OnGetBlockNumber(
       GetBlockNumberCallback callback,
+      const int status,
+      const std::string& body,
+      const base::flat_map<std::string, std::string>& headers);
+  void OnGetFeeHistory(
+      GetFeeHistoryCallback callback,
       const int status,
       const std::string& body,
       const base::flat_map<std::string, std::string>& headers);
