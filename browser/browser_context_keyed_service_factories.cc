@@ -30,6 +30,7 @@
 #include "brave/components/greaselion/browser/buildflags/buildflags.h"
 #include "brave/components/ipfs/buildflags/buildflags.h"
 #include "brave/components/tor/buildflags/buildflags.h"
+#include "brave/browser/profiles/brave_profile_manager.h"
 
 #if BUILDFLAG(ENABLE_GREASELION)
 #include "brave/browser/greaselion/greaselion_service_factory.h"

@@ -8,10 +8,20 @@
 
 #include "chrome/browser/sync/chrome_sync_client.h"
 
+#include "components/prefs/pref_service.h"
+#include "components/sync_preferences/pref_service_syncable.h"
+
 namespace browser_sync {
 class RewardsChromeSyncClient : public ChromeSyncClient {
  public:
-  using ChromeSyncClient::ChromeSyncClient;
+  explicit RewardsChromeSyncClient(Profile* profile);
+
+  ~RewardsChromeSyncClient() override;
+
+  PrefService* GetPrefService() override;
+
+ private:
+  std::unique_ptr<sync_preferences::PrefServiceSyncable> pref_service_;
 };
 }  // namespace browser_sync
 

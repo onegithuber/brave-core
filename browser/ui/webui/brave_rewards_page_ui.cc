@@ -21,6 +21,7 @@
 #include "bat/ledger/mojom_structs.h"
 #include "brave/browser/brave_ads/ads_service_factory.h"
 #include "brave/browser/brave_rewards/rewards_service_factory.h"
+#include "brave/browser/brave_rewards/rewards_sync_service_factory.h"
 #include "brave/browser/ui/webui/brave_webui_source.h"
 #include "brave/common/webui_url_constants.h"
 #include "brave/components/brave_ads/browser/ads_service.h"
@@ -540,6 +541,8 @@ void RewardsDOMHandler::Init() {
   rewards_service_ =
       brave_rewards::RewardsServiceFactory::GetForProfile(profile);
   rewards_service_->StartProcess(base::DoNothing());
+
+  RewardsSyncServiceFactory::GetForProfile(profile);
 
   ads_service_ = brave_ads::AdsServiceFactory::GetForProfile(profile);
 
