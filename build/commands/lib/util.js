@@ -83,6 +83,16 @@ const util = {
     return prog
   },
 
+  runPython3: (args = [], options = {}) => {
+    const python3_bin = path.join(
+        config.depotToolsDir,
+        fs.readFileSync(
+              path.join(config.depotToolsDir, 'python3_bin_reldir.txt'))
+            .toString(),
+        'python3')
+    return util.runProcess(python3_bin, args, options)
+  },
+
   runGit: (repoPath, gitArgs, continueOnFail = false) => {
     let prog = util.run('git', gitArgs, { cwd: repoPath, continueOnFail })
 
@@ -730,6 +740,14 @@ const util = {
     if (reset) {
       args = [...args, ...resetArgs]
     }
+    args = [...args, '--verbose']
+
+    if (options.env !== undefined) {
+      console.log('options.env.GIT_CACHE_PATH', options.env.GIT_CACHE_PATH)
+    } else {
+      console.log('options.env is undefined')
+    }
+    console.log('process.env.GIT_CACHE_PATH', process.env.GIT_CACHE_PATH)
 
     runGClient(args, options)
     // When git cache is enabled, gclient sync will use a local directory as a
