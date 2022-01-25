@@ -430,7 +430,6 @@ interface KeyringService {
 
   // Obtains the keyring information
   GetKeyringsInfo(array<string> keyrings) => (array<KeyringInfo> keyrings);
-
   // Obtains the keyring information
   GetKeyringInfo(string keyringId) => (KeyringInfo keyring);
 

@@ -8,6 +8,7 @@
 
 #include <string>
 
+#include "base/memory/raw_ptr.h"
 #include "brave/components/brave_wallet/common/brave_wallet.mojom.h"
 #include "mojo/public/cpp/bindings/receiver.h"
 
@@ -18,8 +19,7 @@ namespace brave_wallet {
 class BraveWalletService;
 class KeyringService;
 
-// Reports BraveWallet related P3A data.
-// Maintains a timer to report in the amount of up time.
+// Reports BraveWallet related P3A data
 class BraveWalletP3A : public mojom::BraveWalletServiceObserver,
                        public mojom::KeyringServiceObserver {
  public:
@@ -55,7 +55,7 @@ class BraveWalletP3A : public mojom::BraveWalletServiceObserver,
   void RecordInitialBraveWalletP3AState();
   raw_ptr<BraveWalletService> wallet_service_;
   raw_ptr<KeyringService> keyring_service_;
-  raw_ptr<PrefService> pref_service_ = nullptr;
+  raw_ptr<PrefService> pref_service_;
 
   mojo::Receiver<brave_wallet::mojom::BraveWalletServiceObserver>
       wallet_service_observer_receiver_{this};

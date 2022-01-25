@@ -5,7 +5,9 @@
 
 #include "base/test/metrics/histogram_tester.h"
 #include "brave/browser/brave_wallet/brave_wallet_service_factory.h"
+#include "brave/browser/brave_wallet/keyring_service_factory.h"
 #include "brave/components/brave_wallet/browser/brave_wallet_service.h"
+#include "brave/components/brave_wallet/browser/keyring_service.h"
 #include "brave/components/brave_wallet/common/brave_wallet.mojom.h"
 #include "chrome/test/base/testing_profile_manager.h"
 #include "content/public/test/browser_task_environment.h"
@@ -22,6 +24,8 @@ class BraveWalletP3AUnitTest : public testing::Test {
   void SetUp() override {
     TestingProfile::Builder builder;
     profile_ = builder.Build();
+    keyring_service_ =
+        KeyringServiceFactory::GetServiceForContext(profile_.get());
     wallet_service_ =
         brave_wallet::BraveWalletServiceFactory::GetServiceForContext(
             profile_.get());
@@ -31,6 +35,7 @@ class BraveWalletP3AUnitTest : public testing::Test {
   content::BrowserTaskEnvironment task_environment_;
   std::unique_ptr<TestingProfile> profile_;
   std::unique_ptr<base::HistogramTester> histogram_tester_;
+  KeyringService* keyring_service_;
   BraveWalletService* wallet_service_;
 };
 
@@ -72,6 +77,9 @@ TEST_F(BraveWalletP3AUnitTest, DefaultWalletSetting) {
 
 TEST_F(BraveWalletP3AUnitTest, KeyringCreated) {
   histogram_tester_->ExpectBucketCount("Brave.Wallet.KeyringCreated", 0, 1);
+  keyring_service_->CreateWallet("testing123", base::DoNothing());
+  WaitForResponse();
+  histogram_tester_->ExpectBucketCount("Brave.Wallet.KeyringCreated", 1, 1);
 }
 
 }  // namespace brave_wallet
