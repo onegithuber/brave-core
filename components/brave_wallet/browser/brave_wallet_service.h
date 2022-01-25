@@ -192,6 +192,7 @@ class BraveWalletService : public KeyedService,
   raw_ptr<JsonRpcService> json_rpc_service_ = nullptr;
   raw_ptr<EthTxService> eth_tx_service_ = nullptr;
   raw_ptr<PrefService> prefs_ = nullptr;
+  BraveWalletP3A brave_wallet_p3a_;
   mojo::ReceiverSet<mojom::BraveWalletService> receivers_;
   PrefChangeRegistrar pref_change_registrar_;
   base::RepeatingTimer p3a_periodic_timer_;
