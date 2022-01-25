@@ -7,11 +7,15 @@ package org.chromium.chrome.browser.crypto_wallet.fragments;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentManager;
@@ -23,13 +27,15 @@ import org.chromium.base.Log;
 import org.chromium.chrome.R;
 import org.chromium.chrome.browser.crypto_wallet.activities.BuySendSwapActivity;
 import org.chromium.chrome.browser.crypto_wallet.util.Utils;
+import org.chromium.chrome.browser.util.TabUtils;
+import org.chromium.ui.text.NoUnderlineClickableSpan;
 
 public class SwapBottomSheetDialogFragment
         extends BottomSheetDialogFragment implements View.OnClickListener {
     public static final String TAG_FRAGMENT = SwapBottomSheetDialogFragment.class.getName();
-    LinearLayout mBuyLayout;
-    LinearLayout mSendLayout;
-    LinearLayout mSwapLayout;
+    private LinearLayout mBuyLayout;
+    private LinearLayout mSendLayout;
+    private LinearLayout mSwapLayout;
     private String mChainId;
 
     public static SwapBottomSheetDialogFragment newInstance() {
@@ -75,6 +81,22 @@ public class SwapBottomSheetDialogFragment
         if (!Utils.isCustomNetwork(mChainId)) {
             mBuyLayout.setVisibility(View.VISIBLE);
             mSwapLayout.setVisibility(View.VISIBLE);
+            TextView tvSwapDexAggregator = mSwapLayout.findViewById(R.id.tx_swap_dex_aggregator_text);
+            tvSwapDexAggregator.setMovementMethod(LinkMovementMethod.getInstance());
+
+            String dexAggregator = getContext().getString(R.string.swap_dex_aggregator_text);
+            String degAggregatorText =
+                    String.format(getContext().getString(R.string.swap_text), dexAggregator);
+
+            NoUnderlineClickableSpan span = new NoUnderlineClickableSpan(
+                    getResources(), R.color.brave_action_color, (textView) -> {
+                        TabUtils.openUrlInNewTab(false, Utils.DEX_AGGREGATOR_URL);
+                        TabUtils.bringChromeTabbedActivityToTheTop(requireActivity());
+                    });
+
+            SpannableString dexAggregatorSpanStr = Utils.createSpannableString(
+                    degAggregatorText, dexAggregator, span, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            tvSwapDexAggregator.setText(dexAggregatorSpanStr);
         } else {
             mBuyLayout.setVisibility(View.GONE);
             mSwapLayout.setVisibility(View.GONE);

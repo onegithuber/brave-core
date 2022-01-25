@@ -1879,7 +1879,10 @@ Are you sure you want to do this?
       Send crypto or transfer from one account to another.
     </message>
     <message name="IDS_SWAP_TEXT" desc="Brave Wallet swap bottomsheet text">
-      Swap crypto assets with Brave DEX aggregator.
+      Swap tokens using <ph name="SWAP_DEX_AGGREGATOR_TEXT">%s</ph> DEX aggregator
+    </message>
+    <message name="IDS_SWAP_DEX_AGGREGATOR_TEXT" desc="Brave Wallet swap bottomsheet text">
+      0x
     </message>
     <message name="IDS_SECURE_YOUR_CRYPTO" desc="Brave Wallet onboarding text">
       Secure your crypto with a password
