@@ -797,6 +797,7 @@ export const _DesktopWalletConcept = (args: { onboarding: boolean, locked: boole
             accounts={mockUserAccounts}
             selectedNetwork={selectedNetwork}
             selectedAccount={selectedAccount}
+            selectedWalletAccountType={accounts[0]}
             selectedTab={selectedWidgetTab}
             buyAmount={buyAmount}
             sendAmount={sendAmount}

@@ -7,13 +7,15 @@ import {
   ExpirationPresetObjectType,
   ToOrFromType,
   BraveWallet,
-  SwapValidationErrorType
+  SwapValidationErrorType,
+  WalletAccountType
 } from '../../../constants/types'
 import {
   AccountsAssetsNetworks,
   Header,
   Swap
 } from '..'
+import { usePositiveBalance } from '../../../common/hooks'
 
 export interface Props {
   accounts: UserAccountType[]
@@ -23,6 +25,7 @@ export interface Props {
   swapFromAsset: BraveWallet.BlockchainToken
   selectedNetwork: BraveWallet.EthereumChain
   selectedAccount: UserAccountType
+  selectedWalletAccountType: WalletAccountType
   exchangeRate: string
   slippageTolerance: SlippagePresetObjectType
   orderExpiration: ExpirationPresetObjectType
@@ -62,6 +65,7 @@ function SwapTab (props: Props) {
     swapFromAsset,
     selectedNetwork,
     selectedAccount,
+    selectedWalletAccountType,
     exchangeRate,
     slippageTolerance,
     orderExpiration,
@@ -94,6 +98,11 @@ function SwapTab (props: Props) {
   const [swapView, setSwapView] = React.useState<BuySendSwapViewTypes>('swap')
   const [isSelectingAsset, setIsSelectingAsset] = React.useState<ToOrFromType>('from')
   const [filteredAssetList, setFilteredAssetList] = React.useState<BraveWallet.BlockchainToken[]>(assetOptions)
+  const positiveBalanceAssetOptions = usePositiveBalance(
+    selectedNetwork,
+    filteredAssetList,
+    selectedWalletAccountType
+  )()
 
   const onChangeSwapView = (view: BuySendSwapViewTypes, option?: ToOrFromType) => {
     if (option) {
@@ -185,7 +194,7 @@ function SwapTab (props: Props) {
           accounts={accounts}
           networkList={networkList}
           goBack={goBack}
-          assetOptions={filteredAssetList}
+          assetOptions={isSelectingAsset === 'from' ? positiveBalanceAssetOptions : filteredAssetList}
           onClickSelectAccount={onClickSelectAccount}
           onClickSelectNetwork={onClickSelectNetwork}
           onSelectedAsset={onSelectAsset}

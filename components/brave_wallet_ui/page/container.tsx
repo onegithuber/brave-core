@@ -658,6 +658,7 @@ function Container (props: Props) {
             swapFromAsset={fromAsset}
             selectedNetwork={selectedNetwork}
             selectedAccount={selectedAccount}
+            selectedWalletAccountType={selectedAccount}
             selectedTab={selectedWidgetTab}
             exchangeRate={exchangeRate}
             buyAmount={buyAmount}
