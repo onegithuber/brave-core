@@ -361,6 +361,12 @@ source_set("ui") {
       "//brave/browser/ui/sidebar",
       "//brave/browser/ui/webui/sidebar:mojo_bindings",
       "//brave/components/sidebar",
+      "//chrome/app:generated_resources",
+      "//components/bookmarks/browser",
+      "//components/favicon_base",
+      "//mojo/public/cpp/bindings",
+      "//ui/base/mojom",
+      "//ui/webui",
     ]
 
     sources += [
