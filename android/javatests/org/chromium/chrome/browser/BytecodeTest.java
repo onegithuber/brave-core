@@ -134,9 +134,9 @@ public class BytecodeTest {
         Assert.assertTrue(
                 classExists("org/chromium/chrome/browser/toolbar/top/BraveTopToolbarCoordinator"));
         Assert.assertTrue(classExists(
-                "org/chromium/chrome/browser/toolbar/top/TabSwitcherModeTTCoordinatorPhone"));
+                "org/chromium/chrome/browser/toolbar/top/TabSwitcherModeTTCoordinator"));
         Assert.assertTrue(
-                classExists("org/chromium/chrome/browser/toolbar/top/TabSwitcherModeTTPhone"));
+                classExists("org/chromium/chrome/browser/toolbar/top/TabSwitcherModeTopToolbar"));
         Assert.assertTrue(classExists(
                 "org/chromium/chrome/browser/customtabs/features/toolbar/CustomTabToolbar"));
         Assert.assertTrue(
@@ -270,13 +270,13 @@ public class BytecodeTest {
         Assert.assertTrue(methodExists("org/chromium/chrome/browser/toolbar/ToolbarManager",
                 "updateReloadState", false, null));
         Assert.assertTrue(
-                methodExists("org/chromium/chrome/browser/toolbar/top/TabSwitcherModeTTPhone",
+                methodExists("org/chromium/chrome/browser/toolbar/top/TabSwitcherModeTopToolbar",
                         "updateNewTabButtonVisibility", false, null));
         Assert.assertTrue(
-                methodExists("org/chromium/chrome/browser/toolbar/top/TabSwitcherModeTTPhone",
+                methodExists("org/chromium/chrome/browser/toolbar/top/TabSwitcherModeTopToolbar",
                         "getToolbarColorForCurrentState", false, null));
         Assert.assertTrue(
-                methodExists("org/chromium/chrome/browser/toolbar/top/TabSwitcherModeTTPhone",
+                methodExists("org/chromium/chrome/browser/toolbar/top/TabSwitcherModeTopToolbar",
                         "shouldShowIncognitoToggle", false, null));
         Assert.assertTrue(methodExists("org/chromium/chrome/browser/download/MimeUtils",
                 "canAutoOpenMimeType", false, null));
@@ -631,27 +631,28 @@ public class BytecodeTest {
                 "org/chromium/chrome/browser/toolbar/ToolbarManager", "mSnackbarManager"));
         Assert.assertTrue(
                 fieldExists("org/chromium/chrome/browser/toolbar/top/TopToolbarCoordinator",
-                        "mTabSwitcherModeCoordinatorPhone"));
+                        "mTabSwitcherModeCoordinator"));
         Assert.assertTrue(
                 fieldExists("org/chromium/chrome/browser/toolbar/top/TopToolbarCoordinator",
                         "mOptionalButtonController"));
-        Assert.assertTrue(fieldExists(
-                "org/chromium/chrome/browser/toolbar/top/TabSwitcherModeTTCoordinatorPhone",
-                "mTabSwitcherModeToolbar"));
         Assert.assertTrue(
-                fieldExists("org/chromium/chrome/browser/toolbar/top/TabSwitcherModeTTPhone",
+                fieldExists("org/chromium/chrome/browser/toolbar/top/TabSwitcherModeTTCoordinator",
+                        "mTabSwitcherModeToolbar"));
+        Assert.assertTrue(
+                fieldExists("org/chromium/chrome/browser/toolbar/top/TabSwitcherModeTopToolbar",
                         "mNewTabViewButton"));
         Assert.assertTrue(
-                fieldExists("org/chromium/chrome/browser/toolbar/top/TabSwitcherModeTTPhone",
+                fieldExists("org/chromium/chrome/browser/toolbar/top/TabSwitcherModeTopToolbar",
                         "mNewTabImageButton"));
         Assert.assertTrue(
-                fieldExists("org/chromium/chrome/browser/toolbar/top/TabSwitcherModeTTPhone",
+                fieldExists("org/chromium/chrome/browser/toolbar/top/TabSwitcherModeTopToolbar",
                         "mToggleTabStackButton"));
         Assert.assertTrue(
-                fieldExists("org/chromium/chrome/browser/toolbar/top/TabSwitcherModeTTPhone",
+                fieldExists("org/chromium/chrome/browser/toolbar/top/TabSwitcherModeTopToolbar",
                         "mShouldShowNewTabVariation"));
-        Assert.assertTrue(fieldExists(
-                "org/chromium/chrome/browser/toolbar/top/TabSwitcherModeTTPhone", "mIsIncognito"));
+        Assert.assertTrue(
+                fieldExists("org/chromium/chrome/browser/toolbar/top/TabSwitcherModeTopToolbar",
+                        "mIsIncognito"));
         Assert.assertTrue(fieldExists("org/chromium/chrome/browser/app/ChromeActivity",
                 "mBrowserControlsManagerSupplier"));
         Assert.assertTrue(
