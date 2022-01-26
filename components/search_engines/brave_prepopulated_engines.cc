@@ -23,7 +23,7 @@ const std::map<BravePrepopulatedEngineID, const PrepopulatedEngine*>
     brave_engines_map = {
         {PREPOPULATED_ENGINE_ID_GOOGLE, &google},
         {PREPOPULATED_ENGINE_ID_YANDEX, &brave_yandex},
-        {PREPOPULATED_ENGINE_ID_BING, &bing},
+        {PREPOPULATED_ENGINE_ID_BING, &brave_bing},
         {PREPOPULATED_ENGINE_ID_DUCKDUCKGO, &duckduckgo},
         {PREPOPULATED_ENGINE_ID_DUCKDUCKGO_DE, &duckduckgo_de},
         {PREPOPULATED_ENGINE_ID_DUCKDUCKGO_AU_NZ_IE, &duckduckgo_au_nz_ie},
@@ -224,6 +224,28 @@ const PrepopulatedEngine brave_search = {
     SEARCH_ENGINE_OTHER,
     NULL,
     PREPOPULATED_ENGINE_ID_BRAVE,
+};
+
+const PrepopulatedEngine brave_bing = {
+    L"Bing",
+    L":b",
+    "https://www.bing.com/sa/simg/bing_p_rr_teal_min.ico",
+    "https://www.bing.com/search?q={searchTerms}",
+    "UTF-8",
+    "https://www.bing.com/osjson.aspx?query={searchTerms}&language={language}",
+    "https://www.bing.com/images/detail/search?iss=sbiupload#enterInsights",
+    "https://www.bing.com/chrome/newtab",
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    "imageBin={google:imageThumbnailBase64}",
+    NULL,
+    0,
+    SEARCH_ENGINE_OTHER,
+    NULL,
+    PREPOPULATED_ENGINE_ID_BING,
 };
 
 const std::map<BravePrepopulatedEngineID, const PrepopulatedEngine*>&
