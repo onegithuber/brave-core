@@ -670,7 +670,7 @@ const util = {
     let reset = forceReset
 
     // base args
-    const initialArgs = ['sync', '--nohooks']
+    const initialArgs = ['sync', '--nohooks','--no-history']
     const chromiumArgs = ['--revision', 'src@' + config.getProjectRef('chrome')]
     const resetArgs = ['--reset', '--with_tags', '--with_branch_heads', '--upstream']
 
