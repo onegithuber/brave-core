@@ -922,12 +922,15 @@ public class BraveNewTabPageLayout
             boolean isFeedLoaded = BraveActivity.getBraveActivity().isLoadedFeed();
             CopyOnWriteArrayList<FeedItemsCard> existingNewsFeedObject =
                     BraveActivity.getBraveActivity().getNewsItemsFeedCards();
-            int prevScrollPosition = SharedPreferencesManager.getInstance().readInt(
-                    Integer.toString(BraveActivity.getBraveActivity().getActivityTab().getId()));
+            int prevScrollPosition = (BraveActivity.getBraveActivity().getActivityTab() != null)
+                    ? SharedPreferencesManager.getInstance().readInt(Integer.toString(
+                            BraveActivity.getBraveActivity().getActivityTab().getId()))
+                    : 0;
 
-            mmViewedNewsCardsCount =
-                    SharedPreferencesManager.getInstance().readInt("mViewedNewsCardsCount_"
-                            + BraveActivity.getBraveActivity().getActivityTab().getId());
+            mmViewedNewsCardsCount = (BraveActivity.getBraveActivity().getActivityTab() != null)
+                    ? SharedPreferencesManager.getInstance().readInt("mViewedNewsCardsCount_"
+                            + BraveActivity.getBraveActivity().getActivityTab().getId())
+                    : 0;
             if (prevScrollPosition == 0) {
                 isFeedLoaded = false;
                 existingNewsFeedObject = null;
@@ -936,9 +939,12 @@ public class BraveNewTabPageLayout
 
             if (!isFeedLoaded) {
                 getFeed();
-                SharedPreferencesManager.getInstance().writeInt(
-                        Integer.toString(BraveActivity.getBraveActivity().getActivityTab().getId()),
-                        1);
+                if (BraveActivity.getBraveActivity().getActivityTab() != null) {
+                    SharedPreferencesManager.getInstance().writeInt(
+                            Integer.toString(
+                                    BraveActivity.getBraveActivity().getActivityTab().getId()),
+                            1);
+                }
                 // Brave News interaction started
                 if (mBraveNewsController != null) {
                     mBraveNewsController.onInteractionSessionStarted();
